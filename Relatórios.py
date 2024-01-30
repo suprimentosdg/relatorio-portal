@@ -3,7 +3,7 @@ import pandas as pd
 from pymongo import MongoClient
 from io import BytesIO
 from xlsxwriter import Workbook
-import datetime
+from datetime import datetime, time
 
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
@@ -78,9 +78,9 @@ with st.container():
             data_fim = st.date_input("Selecione a data final:")
 
             if data_inicio:
-                data_inicio = datetime.combine(data_inicio, datetime.min.time())
+                data_inicio = datetime.combine(data_inicio, time.min())
             if data_fim:
-                data_fim = datetime.combine(data_fim, datetime.max.time())
+                data_fim = datetime.combine(data_fim, time.max())
             
             df['timestamp'] = pd.to_datetime(df['timestamp'])
 
