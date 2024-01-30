@@ -20,7 +20,10 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
 
-        st.bar_chart(df['regional'].value_counts())
+        countsRegions = df['Regional'].value_counts()
+        countsRegions_df = pd.DataFrame({'Regional': countsRegions.index, 'Contagem': countsRegions.values})
+
+        st.bar_chart(countsRegions_df.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
