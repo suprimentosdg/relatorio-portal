@@ -11,35 +11,7 @@ st.subheader("Relatórios")
 
 options = st.selectbox("Selecione o relatório desejado:", ["Confirmações de entrega", "Aberturas de chamado"])
 with st.container():
-    if  options == "Confirmações de entrega":
-        connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
-        client = MongoClient(connectString)
-        db = client["confirmations"]
-        mycolection = db.Cl01
-        dados_mongodb = list(mycolection.find())
-        dd=[r for r in dados_mongodb]
-        df = pd.DataFrame(dd)
-        st.dataframe(df)
-
-        countsRegions = df['regional'].value_counts()
-        countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
-
-        if st.button("Exibir Gráfico"):
-            st.bar_chart(countsRegions_df.set_index('regional'))
-
-        excel_buffer = BytesIO()
-        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-            df.to_excel(writer, index=False, header=True)
-        excel_bytes = excel_buffer.getvalue()
-        st.download_button(
-            label="Baixar Relatório",
-            data=excel_bytes,
-            file_name=f"relatórioEntregas.xlsx",
-            key="download_button",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
-
-    else:
+    if  options == "Aberturas de chamado":
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
         client = MongoClient(connectString)
         db = client["confirmations"]
@@ -89,3 +61,30 @@ with st.container():
                 key="download_button_regional",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+    else:
+        connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
+        client = MongoClient(connectString)
+        db = client["confirmations"]
+        mycolection = db.Cl01
+        dados_mongodb = list(mycolection.find())
+        dd=[r for r in dados_mongodb]
+        df = pd.DataFrame(dd)
+        st.dataframe(df)
+
+        countsRegions = df['regional'].value_counts()
+        countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
+
+        if st.button("Exibir Gráfico"):
+            st.bar_chart(countsRegions_df.set_index('regional'))
+
+        excel_buffer = BytesIO()
+        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+            df.to_excel(writer, index=False, header=True)
+        excel_bytes = excel_buffer.getvalue()
+        st.download_button(
+            label="Baixar Relatório",
+            data=excel_bytes,
+            file_name=f"relatórioEntregas.xlsx",
+            key="download_button",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
