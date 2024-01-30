@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from pymongo import MongoClient
-import base64
 
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
@@ -20,7 +19,7 @@ with st.container():
         st.dataframe(df)
         if st.button("Baixar relatório"):
             caminho_arquivo = "relatorioEntregas.xlsx"
-            df.to_excel(caminho_arquivo, index=False, sheet_name="Relatorio")
+            df.to_excel(caminho_arquivo, index=False, sheet_name="RelatorioEntregas")
             st.success(f"Relatório exportado com sucesso para {caminho_arquivo}")
 
             with open(caminho_arquivo, "rb") as arquivo:
@@ -37,12 +36,11 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
         if st.button("Baixar relatório"):
-            caminho_arquivo = "relatorioChamados.xlsx"
-            df.to_excel(caminho_arquivo, index=False, sheet_name="Relatorio")
+            caminho_arquivo = "relatorioImpressoras.xlsx"
+            df.to_excel(caminho_arquivo, index=False, sheet_name="RelatorioImpressoras")
             st.success(f"Relatório exportado com sucesso para {caminho_arquivo}")
 
             with open(caminho_arquivo, "rb") as arquivo:
-                arquivo_codificado = base64.b64encode(arquivo.read()).decode()
+                arquivo_bytes = arquivo.read()
 
-            link_download = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{arquivo_codificado}" download="{caminho_arquivo}">Clique aqui para baixar o relatório</a>'
-            st.markdown(link_download, unsafe_allow_html=True)
+            st.write(arquivo_bytes, unsafe_allow_html=True)
