@@ -24,7 +24,6 @@ with st.container():
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
             df.to_excel(writer, index=False, header=True)
         excel_bytes = excel_buffer.getvalue()
-
         st.download_button(
             label="Baixar Relatório",
             data=excel_bytes,
@@ -47,7 +46,6 @@ with st.container():
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
             df.to_excel(writer, index=False, header=True)
         excel_bytes = excel_buffer.getvalue()
-
         st.download_button(
             label="Baixar Relatório",
             data=excel_bytes,
