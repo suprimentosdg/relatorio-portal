@@ -25,9 +25,6 @@ with st.container():
 
         st.bar_chart(countsRegions_df.set_index('regional'))
 
-        for i in range(len(countsRegions_df)):
-            st.write(countsRegions_df.iloc[i]['contagem'], end=' ')
-
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
             df.to_excel(writer, index=False, header=True)
@@ -49,6 +46,11 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         st.dataframe(df)
+
+        countsRegions = df['regional'].value_counts()
+        countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
+
+        st.bar_chart(countsRegions_df.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
