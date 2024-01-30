@@ -100,6 +100,10 @@ with st.container():
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df_filtrado)
 
+            if 'df_filtrado' in locals():
+                st.subheader(f"Dados filtrados da Regional: {regional_selecionada}")
+                st.dataframe(df_filtrado)
+
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                 df_filtrado.to_excel(writer, index=False, header=True)
