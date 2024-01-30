@@ -78,9 +78,9 @@ with st.container():
             data_fim = st.date_input("Selecione a data final:")
 
             if data_inicio:
-                data_inicio = datetime.combine(data_inicio, time.min())
+                data_inicio = datetime.combine(data_inicio, time.min)
             if data_fim:
-                data_fim = datetime.combine(data_fim, time.max())
+                data_fim = datetime.combine(data_fim, time.max)
             
             df['timestamp'] = pd.to_datetime(df['timestamp'])
 
