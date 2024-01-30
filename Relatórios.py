@@ -25,6 +25,9 @@ with st.container():
 
         st.bar_chart(countsRegions_df.set_index('regional'))
 
+        for i in range(len(countsRegions_df)):
+        st.write(countsRegions_df.iloc[i]['Contagem'], end=' ')
+
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
             df.to_excel(writer, index=False, header=True)
