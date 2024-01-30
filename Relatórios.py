@@ -18,16 +18,15 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         st.dataframe(df)
-        if st.button("Exportar para Excel"):
+        if st.button("Baixar relatório"):
             caminho_arquivo = "relatorioEntregas.xlsx"
             df.to_excel(caminho_arquivo, index=False, sheet_name="Relatorio")
             st.success(f"Relatório exportado com sucesso para {caminho_arquivo}")
 
             with open(caminho_arquivo, "rb") as arquivo:
-                arquivo_codificado = base64.b64encode(arquivo.read()).decode()
+                arquivo_bytes = arquivo.read()
 
-            link_download = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{arquivo_codificado}" download="{caminho_arquivo}">Clique aqui para baixar o relatório</a>'
-            st.markdown(link_download, unsafe_allow_html=True)
+            st.write(arquivo_bytes, unsafe_allow_html=True)
     else:
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
         client = MongoClient(connectString)
@@ -37,7 +36,7 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         st.dataframe(df)
-        if st.button("Exportar para Excel"):
+        if st.button("Baixar relatório"):
             caminho_arquivo = "relatorioChamados.xlsx"
             df.to_excel(caminho_arquivo, index=False, sheet_name="Relatorio")
             st.success(f"Relatório exportado com sucesso para {caminho_arquivo}")
