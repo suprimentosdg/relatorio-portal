@@ -63,7 +63,7 @@ with st.container():
             label="Baixar Relatório Geral",
             data=excel_bytes,
             file_name=f"relatórioImpressoras.xlsx",
-            key="download_button",
+            key="download_button_geral",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
@@ -85,6 +85,6 @@ with st.container():
                 label=f"Baixar Relatório da regional {regional_selecionada}",
                 data=excel_bytes,
                 file_name=f"relatórioImpressoras.xlsx",
-                key="download_button",
+                key="download_button_regional",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
