@@ -77,11 +77,11 @@ with st.container():
             data_fim = st.date_input("Selecione a data final:")
 
             if data_inicio and data_fim:
-                df_filtrado = df[(df['Data'] >= data_inicio) & (df['Data'] <= data_fim)]
+                df_filtrado = df[(df['timestamp'] >= data_inicio) & (df['timestamp'] <= data_fim)]
             elif data_inicio:
-                df_filtrado = df[df['Data'] >= data_inicio]
+                df_filtrado = df[df['timestamp'] >= data_inicio]
             elif data_fim:
-                df_filtrado = df[df['Data'] <= data_fim]
+                df_filtrado = df[df['timestamp'] <= data_fim]
             else:
                 df_filtrado = df
 
