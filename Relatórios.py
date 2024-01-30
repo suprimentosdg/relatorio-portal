@@ -21,12 +21,14 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
 
-        countsRegions = df['regional'].value_counts()
-        countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
+        tipo_item_desejado = "Solicitação de toner"
+        df_filtrado = df[df['opcao'] == tipo_item_desejado]
+        contagem_solicitacoes = df_filtrado['regional'].value_counts()
+        contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
 
         if st.button("Exibir Gráfico Geral"):
             st.subheader("Gráfico Geral:")
-            st.bar_chart(countsRegions_df.set_index('regional'))
+            st.bar_chart(contagem_df.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
