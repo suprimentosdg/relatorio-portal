@@ -57,12 +57,12 @@ with st.container():
 
 
             regionais = df['regional'].unique()
-            regional_selecionada = st.selectbox("Selecione a regional:", regionais)
+            regional_selecionada = st.selectbox("Selecione a regional para filtrar as solicitações:", regionais)
 
             if regional_selecionada:
                 df_filtrado = df[df['regional'] == regional_selecionada]
             
-            if st.button("Exibir Gráfico"):
+            if st.button(f"Exibir Gráfico da regional{regional_selecionada}"):
                 st.subheader(f"Dados da Regional: {regional_selecionada}")
                 st.dataframe(df_filtrado)
 
