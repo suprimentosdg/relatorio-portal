@@ -21,7 +21,7 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
 
-        if st.button("Exibir Gráfico Geral"):
+        if st.button("Exibir Gráficos"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
             tipo_item1 = "Solicitação de toner"
             df_filtrado1 = df[df['opcao'] == tipo_item1]
@@ -29,7 +29,7 @@ with st.container():
             contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
             st.bar_chart(contagem_df.set_index('regional'))
 
-            st.subheader("Gráfico Geral de Aberturas de chamado:")
+            st.subheader("Gráfico Geral de Aberturas de Chamado:")
             tipo_item2 = "Assistência técnica"
             df_filtrado2 = df[df['opcao'] == tipo_item2]
             contagem_aberturas = df_filtrado2['regional'].value_counts()
