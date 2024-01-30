@@ -82,7 +82,7 @@ with st.container():
             if data_fim:
                 data_fim = datetime.combine(data_fim, time.max)
             
-            df['timestamp'] = pd.to_datetime(df['timestamp'])
+            df['timestamp'] = pd.to_datetime(df['timestamp'], dayfirst=True)
 
 
             if data_inicio and data_fim:
