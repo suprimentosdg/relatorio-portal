@@ -72,6 +72,19 @@ with st.container():
             regionais = df['regional'].unique()
             regional_selecionada = st.selectbox("Selecione a regional para filtrar as solicitações:", regionais)
 
+            st.markdown("Filtrar por data")
+            data_inicio = st.date_input("Selecione a data inicial:")
+            data_fim = st.date_input("Selecione a data final:")
+
+            if data_inicio and data_fim:
+                df_filtrado = df[(df['Data'] >= data_inicio) & (df['Data'] <= data_fim)]
+            elif data_inicio:
+                df_filtrado = df[df['Data'] >= data_inicio]
+            elif data_fim:
+                df_filtrado = df[df['Data'] <= data_fim]
+            else:
+                df_filtrado = df
+
             if regional_selecionada:
                 df_filtrado = df[df['regional'] == regional_selecionada]
             st.subheader(f"Dados da Regional: {regional_selecionada}")
