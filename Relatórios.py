@@ -21,14 +21,20 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
 
-        tipo_item_desejado = "Solicitação de toner"
-        df_filtrado = df[df['opcao'] == tipo_item_desejado]
-        contagem_solicitacoes = df_filtrado['regional'].value_counts()
-        contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
-
         if st.button("Exibir Gráfico Geral"):
-            st.subheader("Gráfico Geral:")
+            st.subheader("Gráfico Geral de Solicitações de Toner:")
+            tipo_item1 = "Solicitação de toner"
+            df_filtrado1 = df[df['opcao'] == tipo_item1]
+            contagem_solicitacoes = df_filtrado1['regional'].value_counts()
+            contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
             st.bar_chart(contagem_df.set_index('regional'))
+
+            st.subheader("Gráfico Geral de Aberturas de chamado:")
+            tipo_item2 = "Assistência técnica"
+            df_filtrado2 = df[df['opcao'] == tipo_item2]
+            contagem_aberturas = df_filtrado2['regional'].value_counts()
+            contagem_df2 = pd.DataFrame({'regional': contagem_aberturas.index, 'contagem': contagem_aberturas.values})
+            st.bar_chart(contagem_df2.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
