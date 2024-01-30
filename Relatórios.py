@@ -23,7 +23,8 @@ with st.container():
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
 
-        st.bar_chart(countsRegions_df.set_index('regional'))
+        if st.button("Exibir Gráfico"):
+            st.bar_chart(countsRegions_df.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
@@ -50,7 +51,8 @@ with st.container():
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
 
-        st.bar_chart(countsRegions_df.set_index('regional'))
+        if st.button("Exibir Gráfico"):
+            st.bar_chart(countsRegions_df.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
