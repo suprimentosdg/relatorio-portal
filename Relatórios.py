@@ -9,7 +9,7 @@ st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
-options = st.selectbox("Selecione o relatório desejado:", ["Confirmações de entrega", "Aberturas de chamado"])
+options = st.selectbox("Selecione o relatório desejado:", ["Aberturas de chamado", "Confirmações de entrega"])
 with st.container():
     if  options == "Aberturas de chamado":
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
