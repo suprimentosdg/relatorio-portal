@@ -77,12 +77,6 @@ with st.container():
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df_filtrado)
 
-            contagem_regional_filtrada = df_filtrado['regional'].value_counts()
-            contagem_regional_filtrada_df = pd.DataFrame({'regional': contagem_regional_filtrada.index, 'contagem': contagem_regional_filtrada.values})
-
-            st.subheader(f"Gráfico da Regional {regional_selecionada}")
-            st.bar_chart(contagem_regional_filtrada_df.set_index('regional'))
-
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                 df_filtrado.to_excel(writer, index=False, header=True)
