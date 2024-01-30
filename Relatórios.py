@@ -3,6 +3,7 @@ import pandas as pd
 from pymongo import MongoClient
 from io import BytesIO
 from xlsxwriter import Workbook
+import datetime
 
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
@@ -75,6 +76,13 @@ with st.container():
             st.markdown("Filtrar por data")
             data_inicio = st.date_input("Selecione a data inicial:")
             data_fim = st.date_input("Selecione a data final:")
+
+            if data_inicio:
+                data_inicio = datetime.combine(data_inicio, datetime.min.time())
+            if data_fim:
+                data_fim = datetime.combine(data_fim, datetime.max.time())
+            
+            df['timestamp'] = pd.to_datetime(df['timestamp'])
 
             if data_inicio and data_fim:
                 df_filtrado = df[(df['timestamp'] >= data_inicio) & (df['timestamp'] <= data_fim)]
