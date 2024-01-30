@@ -62,18 +62,27 @@ with st.container():
             if regional_selecionada:
                 df_filtrado = df[df['regional'] == regional_selecionada]
             
-            st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df_filtrado)
+            if st.button("Exibir Gráfico"):
+                st.subheader(f"Dados da Regional: {regional_selecionada}")
+                st.dataframe(df_filtrado)
 
-            contagem_regional_filtrada = df_filtrado['regional'].value_counts()
-            contagem_regional_filtrada_df = pd.DataFrame({'regional': contagem_regional_filtrada.index, 'contagem': contagem_regional_filtrada.values})
+                contagem_regional_filtrada = df_filtrado['regional'].value_counts()
+                contagem_regional_filtrada_df = pd.DataFrame({'regional': contagem_regional_filtrada.index, 'contagem': contagem_regional_filtrada.values})
 
-            st.subheader(f"Gráfico da Regional {regional_selecionada}")
-            st.bar_chart(contagem_regional_filtrada_df.set_index('regional'))
+                st.subheader(f"Gráfico da Regional {regional_selecionada}")
+                st.bar_chart(contagem_regional_filtrada_df.set_index('regional'))
 
-            if st.button("Limpar Filtro"):
-                st.write("Filtro limpo!")
-                st.experimental_rerun()
+                excel_buffer = BytesIO()
+                with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                    df_filtrado.to_excel(writer, index=False, header=True)
+                excel_bytes = excel_buffer.getvalue()
+                st.download_button(
+                    label=f"Baixar Relatório da regional {regional_selecionada}",
+                    data=excel_bytes,
+                    file_name=f"relatórioImpressoras.xlsx",
+                    key="download_button",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
 
 
         excel_buffer = BytesIO()
@@ -81,7 +90,7 @@ with st.container():
             df.to_excel(writer, index=False, header=True)
         excel_bytes = excel_buffer.getvalue()
         st.download_button(
-            label="Baixar Relatório",
+            label="Baixar Relatório Geral",
             data=excel_bytes,
             file_name=f"relatórioImpressoras.xlsx",
             key="download_button",
