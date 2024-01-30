@@ -20,8 +20,8 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
 
-        countsRegions = df['Regional'].value_counts()
-        countsRegions_df = pd.DataFrame({'Regional': countsRegions.index, 'Contagem': countsRegions.values})
+        countsRegions = df['regional'].value_counts()
+        countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
 
         st.bar_chart(countsRegions_df.set_index('regional'))
 
