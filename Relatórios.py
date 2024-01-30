@@ -22,8 +22,8 @@ with st.container():
         st.dataframe(df)
 
         plt.figure(figsize=(10, 6))
-        df['Regional'].value_counts().plot(kind='bar')
-        plt.xlabel('Regional')
+        df['regional'].value_counts().plot(kind='bar')
+        plt.xlabel('regional')
         plt.ylabel('Contagem de Dados')
         plt.title('Contagem de Dados por Regional - Confirmações de entrega')
         st.pyplot()
