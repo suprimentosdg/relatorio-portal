@@ -84,7 +84,6 @@ with st.container():
             
             df['timestamp'] = pd.to_datetime(df['timestamp'])
 
-            df_filtrado = df.copy()
 
             if data_inicio and data_fim:
                 df_filtrado = df[(df['timestamp'] >= data_inicio) & (df['timestamp'] <= data_fim)]
