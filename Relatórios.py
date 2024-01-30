@@ -3,7 +3,6 @@ import pandas as pd
 from pymongo import MongoClient
 from io import BytesIO
 from xlsxwriter import Workbook
-import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
@@ -21,12 +20,7 @@ with st.container():
         df = pd.DataFrame(dd)
         st.dataframe(df)
 
-        plt.figure(figsize=(10, 6))
-        df['regional'].value_counts().plot(kind='bar')
-        plt.xlabel('regional')
-        plt.ylabel('Contagem de Dados')
-        plt.title('Contagem de Dados por Regional - Confirmações de entrega')
-        st.pyplot()
+        st.bar_chart(df['regional'].value_counts)
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
