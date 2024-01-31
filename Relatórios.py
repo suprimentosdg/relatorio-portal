@@ -67,7 +67,7 @@ with st.container():
         )
 
         
-        st.sidebar.button("Filtros")
+        st.sidebar.markdown("Filtros")
         df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
         min_date = min(df1_data)
         max_date = max(df1_data)
