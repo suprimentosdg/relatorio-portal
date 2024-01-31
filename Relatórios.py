@@ -67,7 +67,7 @@ with st.container():
         )
 
         
-        if st.button(f"Filtrar por Regional"):
+        if st.button(f"Filtros"):
             df1 = loading_dadosConfirm() 
             colunasUteis = ["nome", "regional", "impressora", "opcao", "observacao", "timestamp"]
             df1 = df1[colunasUteis]
@@ -90,8 +90,8 @@ with st.container():
             
             df1 = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
 
-            if regional_selecionada:
-                df1 = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
+            df1 = df1.set_index(pd.DatetimeIndex(df1["timestamp"].values))
+
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df1)
 
