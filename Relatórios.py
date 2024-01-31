@@ -68,6 +68,8 @@ with st.container():
         
         df1filtered = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
 
+        st.markdown = "---"
+
         st.subheader(f"Dados da Regional: {regional_selecionada}")
         st.dataframe(df1filtered)
 
