@@ -84,14 +84,14 @@ with st.container():
             if start > end:
                 st.error("Data final deve ser **Maior** que data inicial")
             
-            df1 = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
+            df1filtered = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
 
             st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df1)
+            st.dataframe(df1filtered)
 
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                df1.to_excel(writer, index=False, header=True)
+                df1filtered.to_excel(writer, index=False, header=True)
             excel_bytes = excel_buffer.getvalue()
             st.download_button(
                 label=f"Baixar Relatório da regional **{regional_selecionada}**",
