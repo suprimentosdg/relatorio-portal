@@ -90,14 +90,9 @@ with st.container():
             
             df1 = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
 
-            if regional_selecionada:
-                df_filtrado = df1[df1['regional'] == regional_selecionada]
-            st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df_filtrado)
-
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                df_filtrado.to_excel(writer, index=False, header=True)
+                df1.to_excel(writer, index=False, header=True)
             excel_bytes = excel_buffer.getvalue()
             st.download_button(
                 label=f"Baixar Relatório da regional {regional_selecionada}",
