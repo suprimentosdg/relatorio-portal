@@ -35,6 +35,8 @@ options = st.selectbox("Selecione o relatório desejado:", ["Aberturas de chamad
 with st.container():
     if  options == "Aberturas de chamado":
         df1 = loading_dadosConfirm() 
+        colunasUteis = ["nome", "reginal", "impressora", "opcao", "observacao", "timestamp"]
+        df1 = colunasUteis
         st.dataframe(df1)
 
         if st.button("Exibir Gráficos"):
@@ -87,6 +89,8 @@ with st.container():
             )
     else:
         df2 = loading_dadosCham()
+        colunasUteis = ["nome", "regional", "loja", "fornecedor", "data_recebimento", "nf", "timestamp"]
+        df2 = colunasUteis
         st.dataframe(df2)
 
         countsRegions = df2['regional'].value_counts()
