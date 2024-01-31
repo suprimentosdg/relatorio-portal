@@ -35,7 +35,7 @@ options = st.selectbox("Selecione o relatório desejado:", ["Aberturas de chamad
 with st.container():
     if  options == "Aberturas de chamado":
         df1 = loading_dadosConfirm() 
-        colunasUteis = ["nome", "reginal", "impressora", "opcao", "observacao", "timestamp"]
+        colunasUteis = ["nome", "regional", "impressora", "opcao", "observacao", "timestamp"]
         df1 = df1[colunasUteis]
         st.dataframe(df1)
 
