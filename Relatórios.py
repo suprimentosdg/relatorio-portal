@@ -20,6 +20,7 @@ def loading_dadosConfirm():
     df1 = pd.DataFrame(dd)
     return df1
 
+@st.cache_data
 def loading_dadosCham():
     connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
     client = MongoClient(connectString)
