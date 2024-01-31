@@ -10,7 +10,7 @@ st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
 @st.cache_data
-def loading_dadosConfirm():
+def loading_dadosCham():
     connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
     client = MongoClient(connectString)
     db = client["confirmations"]
@@ -21,7 +21,7 @@ def loading_dadosConfirm():
     return df1
 
 @st.cache_data
-def loading_dadosCham():
+def loading_dadosConfirm():
     connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
     client = MongoClient(connectString)
     db = client["confirmations"]
@@ -34,7 +34,7 @@ def loading_dadosCham():
 options = st.selectbox("Selecione o relatório desejado:", ["Aberturas de chamado", "Confirmações de entrega"])
 with st.container():
     if  options == "Aberturas de chamado":
-        df1 = loading_dadosConfirm() 
+        df1 = loading_dadosCham() 
         colunasUteis = ["nome", "regional", "impressora", "opcao", "observacao", "timestamp"]
         df1 = df1[colunasUteis]
         st.dataframe(df1)
@@ -101,7 +101,7 @@ with st.container():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
     else:
-        df2 = loading_dadosCham()
+        df2 = loading_dadosConfirm()
         colunasUteis = ["nome", "regional", "loja", "fornecedor", "data_recebimento", "nf", "timestamp"]
         df2 = df2[colunasUteis]
         st.dataframe(df2)
