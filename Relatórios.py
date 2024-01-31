@@ -37,21 +37,6 @@ with st.container():
         df1 = loading_dadosCham() 
         st.dataframe(df1)
 
-        if st.button("Exibir Gráficos"):
-            st.subheader("Gráfico Geral de Solicitações de Toner:")
-            tipo_item1 = "Solicitação de toner"
-            df_filtrado1 = df1[df1['opcao'] == tipo_item1]
-            contagem_solicitacoes = df_filtrado1['regional'].value_counts()
-            contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
-            st.bar_chart(contagem_df.set_index('regional'))
-
-            st.subheader("Gráfico Geral de Aberturas de Chamado:")
-            tipo_item2 = "Assistência técnica"
-            df_filtrado2 = df1[df1['opcao'] == tipo_item2]
-            contagem_aberturas = df_filtrado2['regional'].value_counts()
-            contagem_df2 = pd.DataFrame({'regional': contagem_aberturas.index, 'contagem': contagem_aberturas.values})
-            st.bar_chart(contagem_df2.set_index('regional'))
-
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
             df1.to_excel(writer, index=False, header=True)
@@ -63,8 +48,7 @@ with st.container():
             key="download_button_geral",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-
-        
+ 
         st.sidebar.markdown("Filtros")
         df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
         min_date = min(df1_data)
@@ -98,6 +82,21 @@ with st.container():
             key="download_button_regional",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
+
+        if st.button("Exibir Gráficos"):
+            st.subheader("Gráfico Geral de Solicitações de Toner:")
+            tipo_item1 = "Solicitação de toner"
+            df_filtrado1 = df1[df1['opcao'] == tipo_item1]
+            contagem_solicitacoes = df_filtrado1['regional'].value_counts()
+            contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
+            st.bar_chart(contagem_df.set_index('regional'))
+
+            st.subheader("Gráfico Geral de Aberturas de Chamado:")
+            tipo_item2 = "Assistência técnica"
+            df_filtrado2 = df1[df1['opcao'] == tipo_item2]
+            contagem_aberturas = df_filtrado2['regional'].value_counts()
+            contagem_df2 = pd.DataFrame({'regional': contagem_aberturas.index, 'contagem': contagem_aberturas.values})
+            st.bar_chart(contagem_df2.set_index('regional'))
     else:
         df2 = loading_dadosConfirm()
         st.dataframe(df2)
