@@ -31,9 +31,9 @@ def loading_dadosConfirm():
     df2 = pd.DataFrame(dd)
     return df2
 
-options = st.selectbox("Selecione o relatório desejado:", ["Aberturas de chamado", "Confirmações de entrega"])
+options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entrega"])
 with st.container():
-    if  options == "Aberturas de chamado":
+    if  options == "Gerenciamento de Impressoras":
         df1 = loading_dadosCham() 
         st.dataframe(df1)
 
