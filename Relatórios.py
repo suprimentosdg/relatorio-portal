@@ -67,39 +67,39 @@ with st.container():
         )
 
         
-        if st.sidebar.button("Filtros"):
-            df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
-            min_date = min(df1_data)
-            max_date = max(df1_data)
+        st.sidebar.button("Filtros")
+        df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
+        min_date = min(df1_data)
+        max_date = max(df1_data)
 
-            regionais = df1['regional'].unique()
-            regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
+        regionais = df1['regional'].unique()
+        regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
 
-            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-            end_date = st.sidebar.text_input("Digite uma data final", max_date)
+        start_date = st.sidebar.text_input("Digite uma data de início", min_date)
+        end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
-            start = pd.to_datetime(start_date)
-            end = pd.to_datetime(end_date)
+        start = pd.to_datetime(start_date)
+        end = pd.to_datetime(end_date)
 
-            if start > end:
-                st.error("Data final deve ser **Maior** que data inicial")
-            
-            df1filtered = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
+        if start > end:
+            st.error("Data final deve ser **Maior** que data inicial")
+        
+        df1filtered = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
 
-            st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df1filtered)
+        st.subheader(f"Dados da Regional: {regional_selecionada}")
+        st.dataframe(df1filtered)
 
-            excel_buffer = BytesIO()
-            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                df1filtered.to_excel(writer, index=False, header=True)
-            excel_bytes = excel_buffer.getvalue()
-            st.download_button(
-                label=f"Baixar Relatório da regional **{regional_selecionada}**",
-                data=excel_bytes,
-                file_name=f"relatórioImpressoras.xlsx",
-                key="download_button_regional",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+        excel_buffer = BytesIO()
+        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+            df1filtered.to_excel(writer, index=False, header=True)
+        excel_bytes = excel_buffer.getvalue()
+        st.download_button(
+            label=f"Baixar Relatório da regional **{regional_selecionada}**",
+            data=excel_bytes,
+            file_name=f"relatórioImpressoras.xlsx",
+            key="download_button_regional",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
     else:
         df2 = loading_dadosConfirm()
         colunasUteis = ["nome", "regional", "loja", "fornecedor", "data_recebimento", "nf", "timestamp"]
