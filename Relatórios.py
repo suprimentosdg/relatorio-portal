@@ -90,8 +90,6 @@ with st.container():
             
             df1 = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
 
-            df1 = df1.set_index(pd.DatetimeIndex(df1["timestamp"].values))
-
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df1)
 
@@ -100,7 +98,7 @@ with st.container():
                 df1.to_excel(writer, index=False, header=True)
             excel_bytes = excel_buffer.getvalue()
             st.download_button(
-                label=f"Baixar Relatório da regional {regional_selecionada}",
+                label=f"Baixar Relatório da regional **{regional_selecionada}**",
                 data=excel_bytes,
                 file_name=f"relatórioImpressoras.xlsx",
                 key="download_button_regional",
