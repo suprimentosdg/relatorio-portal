@@ -77,7 +77,7 @@ with st.container():
             max_date = max(df1_data)
 
             regionais = df1['regional'].unique()
-            regional_selecionada = st.sidebar("Selecione a regional para filtrar as solicitações:", regionais)
+            regional_selecionada = st.sidebar.selectbox("Selecione a regional para filtrar as solicitações:", regionais)
 
             start_date = st.sidebar.text_input("Digite uma data de início", min_date)
             end_date = st.sidebar.text_input("Digite uma data final", max_date)
