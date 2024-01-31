@@ -88,7 +88,7 @@ with st.container():
             if start > end:
                 st.error("Data final deve ser **Maior** que data inicial")
             
-            df1 = df1 & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) >= end)
+            df1 = df1(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) >= end)
 
             if regional_selecionada:
                 df_filtrado = df1[df1['regional'] == regional_selecionada]
