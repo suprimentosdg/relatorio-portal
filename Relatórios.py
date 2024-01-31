@@ -68,12 +68,27 @@ with st.container():
 
         
         if st.button(f"Filtrar por Regional"):
+            df1 = loading_dadosConfirm() 
+            colunasUteis = ["nome", "regional", "impressora", "opcao", "observacao", "timestamp"]
+            df1 = df1[colunasUteis]
+
             df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
             min_date = min(df1_data)
             max_date = max(df1_data)
 
             regionais = df1['regional'].unique()
             regional_selecionada = st.selectbox("Selecione a regional para filtrar as solicitações:", regionais)
+
+            start_date = st.text_input("Digite uma data de início", min_date)
+            end_date = st.text_input("Digite uma data final", max_date)
+
+            start = pd.to_datetime(start_date)
+            end = pd.to_datetime(end_date)
+
+            if start > end:
+                st.error("Data final deve ser **Maior** que data inicial")
+            
+            df1 = df1 & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) >= end)
 
             if regional_selecionada:
                 df_filtrado = df1[df1['regional'] == regional_selecionada]
