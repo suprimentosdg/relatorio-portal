@@ -9,37 +9,21 @@ st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
-@st.cache_data
-def loading_dadosCham():
-    connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
-    client = MongoClient(connectString)
-    db = client["confirmations"]
-    mycolection = db.Cl02
-    dados_mongodb = list(mycolection.find())
-    dd=[r for r in dados_mongodb]
-    df1 = pd.DataFrame(dd)
-    return df1
-
-@st.cache_data
-def loading_dadosConfirm():
-    connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
-    client = MongoClient(connectString)
-    db = client["confirmations"]
-    mycolection = db.Cl01
-    dados_mongodb = list(mycolection.find())
-    dd=[r for r in dados_mongodb]
-    df2 = pd.DataFrame(dd)
-    return df2
-
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
 with st.container():
     if  options == "Gerenciamento de Impressoras":
-        df1 = loading_dadosCham() 
-        st.dataframe(df1)
+        connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
+        client = MongoClient(connectString)
+        db = client["confirmations"]
+        mycolection = db.Cl02
+        dados_mongodb = list(mycolection.find())
+        dd=[r for r in dados_mongodb]
+        df = pd.DataFrame(dd)
+        st.dataframe(df)
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-            df1.to_excel(writer, index=False, header=True)
+            df.to_excel(writer, index=False, header=True)
         excel_bytes = excel_buffer.getvalue()
         st.download_button(
             label="Baixar Relatório Geral",
@@ -50,11 +34,11 @@ with st.container():
         )
  
         st.sidebar.markdown("Filtros")
-        df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
+        df1_data = pd.to_datetime(df["timestamp"]).dt.date.drop_duplicates()
         min_date = min(df1_data)
         max_date = max(df1_data)
 
-        regionais = df1['regional'].unique()
+        regionais = df['regional'].unique()
         regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
 
         start_date = st.sidebar.text_input("Digite uma data de início", min_date)
@@ -66,7 +50,7 @@ with st.container():
         if start > end:
             st.error("Data final deve ser **Maior** que data inicial")
         
-        df1filtered = df1[(df1["regional"] == regional_selecionada) & (pd.to_datetime(df1["timestamp"]) >= start) & (pd.to_datetime(df1["timestamp"]) <= end)]
+        df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
         st.write("---")
 
@@ -88,21 +72,27 @@ with st.container():
         if st.button("Exibir Gráficos"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
             tipo_item1 = "Solicitação de toner"
-            df_filtrado1 = df1[df1['opcao'] == tipo_item1]
+            df_filtrado1 = df[df['opcao'] == tipo_item1]
             contagem_solicitacoes = df_filtrado1['regional'].value_counts()
             contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
             st.bar_chart(contagem_df.set_index('regional'))
 
             st.subheader("Gráfico Geral de Aberturas de Chamado:")
             tipo_item2 = "Assistência técnica"
-            df_filtrado2 = df1[df1['opcao'] == tipo_item2]
+            df_filtrado2 = df[df['opcao'] == tipo_item2]
             contagem_aberturas = df_filtrado2['regional'].value_counts()
             contagem_df2 = pd.DataFrame({'regional': contagem_aberturas.index, 'contagem': contagem_aberturas.values})
             st.bar_chart(contagem_df2.set_index('regional'))
     else:
-        df2 = loading_dadosConfirm()
-        st.dataframe(df2)
-        countsRegions = df2['regional'].value_counts()
+        connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
+        client = MongoClient(connectString)
+        db = client["confirmations"]
+        mycolection = db.Cl01
+        dados_mongodb = list(mycolection.find())
+        dd=[r for r in dados_mongodb]
+        df = pd.DataFrame(dd)
+        st.dataframe(df)
+        countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
 
         if st.button("Exibir Gráfico"):
@@ -110,7 +100,7 @@ with st.container():
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-            df2.to_excel(writer, index=False, header=True)
+            df.to_excel(writer, index=False, header=True)
         excel_bytes = excel_buffer.getvalue()
         st.download_button(
             label="Baixar Relatório",
