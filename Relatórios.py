@@ -68,6 +68,10 @@ with st.container():
 
         
         if st.button(f"Filtrar por Regional"):
+            df1_data = pd.to_datetime(df1["timestamp"]).dt.date.drop_duplicates()
+            min_date = min(df1_data)
+            max_date = max(df1_data)
+
             regionais = df1['regional'].unique()
             regional_selecionada = st.selectbox("Selecione a regional para filtrar as solicitações:", regionais)
 
