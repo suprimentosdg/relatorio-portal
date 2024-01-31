@@ -9,16 +9,21 @@ st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
+@st.cache_data
+def loading_dadosConfirm():
+    connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
+    client = MongoClient(connectString)
+    db = client["confirmations"]
+    mycolection = db.Cl02
+    dados_mongodb = list(mycolection.find())
+    dd=[r for r in dados_mongodb]
+    df = pd.DataFrame(dd)
+    return df
+
 options = st.selectbox("Selecione o relatório desejado:", ["Aberturas de chamado", "Confirmações de entrega"])
 with st.container():
     if  options == "Aberturas de chamado":
-        connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
-        client = MongoClient(connectString)
-        db = client["confirmations"]
-        mycolection = db.Cl02
-        dados_mongodb = list(mycolection.find())
-        dd=[r for r in dados_mongodb]
-        df = pd.DataFrame(dd)
+        df = loading_dadosConfirm() 
         st.dataframe(df)
 
         if st.button("Exibir Gráficos"):
