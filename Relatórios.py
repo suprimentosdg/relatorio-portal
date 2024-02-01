@@ -8,10 +8,10 @@ from datetime import datetime, timedelta
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
+st.image('logo_globo.png', use_column_width="auto")
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
 with st.container():
-    st.image('logo_globo.png')
     if  options == "Gerenciamento de Impressoras":
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
         client = MongoClient(connectString)
