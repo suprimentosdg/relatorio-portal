@@ -6,9 +6,9 @@ from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Relatórios")
-col1, col2 = st.columns([1, 4])
-col1.image('logo_globo.png', width=100, use_column_width=False)
-st.title("Portal de Suprimentos")
+col1, col2 = st.columns([1, 2])
+col1.title("Portal de Suprimentos")
+col2.image('logo_globo.png', width=100, use_column_width=False)
 st.subheader("Relatórios")
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
