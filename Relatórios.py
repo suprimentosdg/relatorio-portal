@@ -70,7 +70,7 @@ with st.container():
         
         df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-        df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp']) - timedelta(hours=3)
+        df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
         st.subheader(f"Dados da Regional: {regional_selecionada}")
         st.dataframe(df1filtered)
