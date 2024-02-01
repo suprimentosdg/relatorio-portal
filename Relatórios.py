@@ -152,8 +152,8 @@ with st.container():
 
             if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
                 st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
-                df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
-                counts = df_filtered_options["opcao"].value_counts()
+                df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado Jorge Batista"])]
+                counts = df_filtered_options["fornecedor"].value_counts()
                 st.bar_chart(counts)
 
             excel_buffer = BytesIO()
