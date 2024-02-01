@@ -10,16 +10,16 @@ st.write(
     """
     <style>
     .image-container {
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 10px;
-        z-index: 1; /* Garante que a imagem fique na frente do conteúdo */
+        z-index: 1;
     }
     </style>
     """
 )
 img_path = 'logo_globo.png'
-st.write(f'<div class="image-container"><img src="{img_path}" width="100" alt="Logo Globo"></div>', unsafe_allow_html=True)
+st.image(img_path, width=100, use_column_width=False, output_format='auto', caption='Logo Globo', class_='image-container')
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
