@@ -19,8 +19,7 @@ with st.container():
         dados_mongodb = list(mycolection.find())
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
-        df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True).dt.tz_convert('America/Sao_Paulo') - timedelta(hours=3)
-
+        df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
 
         st.dataframe(df)
 
