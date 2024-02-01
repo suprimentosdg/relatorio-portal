@@ -20,7 +20,6 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
-
         st.dataframe(df)
 
         if st.button("Exibir Gráficos Gerais"):
@@ -50,6 +49,8 @@ with st.container():
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
+        st.write("---")
+
         st.sidebar.markdown("Filtros")
         df1_data = pd.to_datetime(df["timestamp"]).dt.date.drop_duplicates()
         min_date = min(df1_data)
@@ -69,7 +70,7 @@ with st.container():
         
         df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-        st.write("---")
+        df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp']) - timedelta(hours=3)
 
         st.subheader(f"Dados da Regional: {regional_selecionada}")
         st.dataframe(df1filtered)
