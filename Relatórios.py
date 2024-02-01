@@ -3,7 +3,7 @@ import pandas as pd
 from pymongo import MongoClient
 from io import BytesIO
 from xlsxwriter import Workbook
-from datetime import datetime, time
+from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
@@ -19,9 +19,11 @@ with st.container():
         dados_mongodb = list(mycolection.find())
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
+        df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
+
         st.dataframe(df)
 
-        if st.button("Exibir Gráficos"):
+        if st.button("Exibir Gráficos Gerais"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
             tipo_item1 = "Solicitação de toner"
             df_filtrado1 = df[df['opcao'] == tipo_item1]
