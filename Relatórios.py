@@ -13,11 +13,14 @@ st.write(
         position: absolute;
         top: 10px;
         right: 10px;
+        z-index: 1; /* Garante que a imagem fique na frente do conteúdo */
     }
     </style>
     """
 )
-st.image('logo_globo.png', width=80, use_column_width=False, output_format='auto', unsafe_allow_html=True)
+
+img_path = 'logo_globo.png'
+st.image(img_path, width=100, use_column_width=False, output_format='auto', caption='Logo Globo', class_='image-container')
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
