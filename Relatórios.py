@@ -18,9 +18,8 @@ st.write(
     </style>
     """
 )
-
 img_path = 'logo_globo.png'
-st.image(img_path, width=100, use_column_width=False, output_format='auto', caption='Logo Globo', class_='image-container')
+st.write(f'<div class="image-container"><img src="{img_path}" width="100" alt="Logo Globo"></div>', unsafe_allow_html=True)
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
