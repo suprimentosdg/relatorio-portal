@@ -63,7 +63,7 @@ with st.container():
         end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
         start = pd.to_datetime(start_date)
-        end = pd.to_datetime(end_date)
+        end = pd.to_datetime(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
 
         if start > end:
             st.error("Data final deve ser **Maior** que data inicial")
