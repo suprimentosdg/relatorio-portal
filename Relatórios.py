@@ -74,8 +74,15 @@ with st.container():
 
         if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
             st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
-            df1filtered = df[(df["regional"] == regional_selecionada) & (df["opcao"] == "Assistência técnica") & (df["opcao"] == "Solicitação de toner")]
-            st.bar_chart(df1filtered)
+            counts = df1filtered["opcao"].value_counts()
+            assistencia_tecnica_count = counts.get("Assistência técnica", 0)
+            solicitacao_toner_count = counts.get("Solicitação de toner", 0)
+            data = {
+                'Opção': ['Assistência técnica', 'Solicitação de toner'],
+                'Quantidade': [assistencia_tecnica_count, solicitacao_toner_count]
+            }
+            df_counts = pd.DataFrame(data)
+            st.bar_chart(df_counts.set_index('Opção'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
