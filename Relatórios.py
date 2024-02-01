@@ -53,6 +53,7 @@ with st.container():
 
         show_filters = st.checkbox("Exibir Filtros")
         if show_filters:
+            st.image('logo_globo.png')
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
             min_date = min(df1_data)
