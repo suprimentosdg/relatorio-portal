@@ -6,7 +6,7 @@ from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Relatórios")
-st.write(
+st.markdown(
     """
     <style>
     .image-container {
@@ -19,7 +19,7 @@ st.write(
     """
 )
 img_path = 'logo_globo.png'
-st.write(f'<img src="{img_path}" class="image-container" width="100">', unsafe_allow_html=True)
+st.markdown(f'<img src="{img_path}" class="image-container" width="100">', unsafe_allow_html=True)
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
