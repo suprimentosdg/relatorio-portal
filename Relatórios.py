@@ -6,20 +6,8 @@ from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Relatórios")
-st.markdown(
-    """
-    <style>
-    .image-container {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1;
-    }
-    </style>
-    """
-)
 img_path = 'logo_globo.png'
-st.markdown(f'<img src="{img_path}" class="image-container" width="100">', unsafe_allow_html=True)
+st.image(img_path, width=100, caption='Logo Globo', use_column_width=False, output_format='auto', style='position: fixed; top: 10px; right: 10px; z-index: 1;')
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
