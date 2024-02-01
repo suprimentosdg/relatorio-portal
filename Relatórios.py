@@ -6,9 +6,20 @@ from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 
 st.set_page_config(page_title="Relatórios")
+st.write(
+    """
+    <style>
+    .image-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    </style>
+    """
+)
+st.image('logo_globo.png', width=80, use_column_width=False, output_format='auto', unsafe_allow_html=True)
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
-st.image('logo_globo.png', width=80, use_column_width=False)
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
 with st.container():
