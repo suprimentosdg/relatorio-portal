@@ -74,6 +74,7 @@ with st.container():
 
         if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
             st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+            df1filtered = df[(df["regional"] == regional_selecionada) & (df["opcao"] == "Assistência técnica") & (df["opcao"] == "Solicitação de toner")]
             st.bar_chart(df1filtered)
 
         excel_buffer = BytesIO()
