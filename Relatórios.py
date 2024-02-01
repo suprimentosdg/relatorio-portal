@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
-st.image('logo_globo.png', width=80, use_column_width=True)
+st.image('logo_globo.png', width=80, use_column_width=False)
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
 with st.container():
