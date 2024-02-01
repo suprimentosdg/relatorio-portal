@@ -19,7 +19,7 @@ st.write(
     """
 )
 img_path = 'logo_globo.png'
-st.image(img_path, width=100, use_column_width=False, output_format='auto', caption='Logo Globo', class_='image-container')
+st.write(f'<img src="{img_path}" class="image-container" width="100">', unsafe_allow_html=True)
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
