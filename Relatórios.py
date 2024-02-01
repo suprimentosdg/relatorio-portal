@@ -72,16 +72,9 @@ with st.container():
         st.subheader(f"Dados da Regional: {regional_selecionada}")
         st.dataframe(df1filtered)
 
-        if st.button(f"Exibir Gráficos da regional {regional_selecionada}"):
-            st.subheader("Gráfico Geral de Solicitações de Toner:")
-            tipo_item1reg = "Solicitação de toner"
-            tipo_item2reg = "Assistência técnica"
-            df_filtrado1reg = df[df['opcao'] == tipo_item1reg]
-            df_filtrado2reg = df[df['opcao'] == tipo_item2reg]
-            contagem_solicitacoesreg = df_filtrado1reg['regional'].value_counts()
-            contagem_aberturasreg = df_filtrado2reg['regional'].value_counts()
-            contagem_dfreg = pd.DataFrame({'regional': contagem_solicitacoesreg.index, 'contagem': contagem_solicitacoesreg.values, 'regional': contagem_aberturasreg.index, 'contagem': contagem_aberturasreg.values})
-            st.bar_chart(contagem_dfreg.set_index('regional'))
+        if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
+            st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+            st.bar_chart(df1filtered)
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
