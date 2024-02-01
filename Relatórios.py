@@ -50,48 +50,49 @@ with st.container():
         )
 
         st.write("---")
+        show_filters = st.checkbox("Mostrar Filtros")
+        if show_filters:
+            st.sidebar.markdown("**Filtros**")
+            df1_data = pd.to_datetime(df["timestamp"]).dt.date
+            min_date = min(df1_data)
+            max_date = max(df1_data)
 
-        st.sidebar.markdown("**Filtros**")
-        df1_data = pd.to_datetime(df["timestamp"]).dt.date
-        min_date = min(df1_data)
-        max_date = max(df1_data)
+            regionais = df['regional'].unique()
+            regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
 
-        regionais = df['regional'].unique()
-        regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
+            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
+            end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
-        start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-        end_date = st.sidebar.text_input("Digite uma data final", max_date)
+            start = pd.to_datetime(start_date)
+            end = pd.to_datetime(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
 
-        start = pd.to_datetime(start_date)
-        end = pd.to_datetime(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+            if start > end:
+                st.error("Data final deve ser **Maior** que data inicial")
+            
+            df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-        if start > end:
-            st.error("Data final deve ser **Maior** que data inicial")
-        
-        df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-        df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
+            st.subheader(f"Dados da Regional: {regional_selecionada}")
+            st.dataframe(df1filtered)
 
-        st.subheader(f"Dados da Regional: {regional_selecionada}")
-        st.dataframe(df1filtered)
+            if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
+                st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+                df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
+                counts = df_filtered_options["opcao"].value_counts()
+                st.bar_chart(counts)
 
-        if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
-            st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
-            df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
-            counts = df_filtered_options["opcao"].value_counts()
-            st.bar_chart(counts)
-
-        excel_buffer = BytesIO()
-        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-            df1filtered.to_excel(writer, index=False, header=True)
-        excel_bytes = excel_buffer.getvalue()
-        st.download_button(
-            label=f"Baixar Relatório da regional **{regional_selecionada}**",
-            data=excel_bytes,
-            file_name=f"relatórioImpressoras.xlsx",
-            key="download_button_regional",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            excel_buffer = BytesIO()
+            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                df1filtered.to_excel(writer, index=False, header=True)
+            excel_bytes = excel_buffer.getvalue()
+            st.download_button(
+                label=f"Baixar Relatório da regional **{regional_selecionada}**",
+                data=excel_bytes,
+                file_name=f"relatórioImpressoras.xlsx",
+                key="download_button_regional",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
     else:
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
