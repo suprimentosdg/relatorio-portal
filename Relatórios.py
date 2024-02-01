@@ -51,9 +51,6 @@ with st.container():
 
         st.write("---")
 
-with st.sidebar:
-    show_filters = st.checkbox("Mostrar Filtros")
-    if show_filters:
         st.sidebar.markdown("**Filtros**")
         df1_data = pd.to_datetime(df["timestamp"]).dt.date
         min_date = min(df1_data)
