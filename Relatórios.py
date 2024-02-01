@@ -52,7 +52,7 @@ with st.container():
         st.write("---")
 
         st.sidebar.markdown("Filtros")
-        df1_data = pd.to_datetime(df["timestamp"]).dt.date.drop_duplicates()
+        df1_data = pd.to_datetime(df["timestamp"]).dt.date
         min_date = min(df1_data)
         max_date = max(df1_data)
 
