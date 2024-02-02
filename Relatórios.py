@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from io import BytesIO
 from xlsxwriter import Workbook
 from datetime import datetime, timedelta
+from PIL import Image
 
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
@@ -53,7 +54,9 @@ with st.container():
 
         show_filters = st.checkbox("Exibir Filtros")
         if show_filters:
-            st.sidebar.image('logo_globo.png', width=20, use_column_width=True, output_format='auto')
+            img = Image.open('logo_globo.png')
+            img = img.resize((60, 60))
+            st.sidebar.image(img, use_column_width=True, output_format='auto')
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
             min_date = min(df1_data)
