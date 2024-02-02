@@ -52,9 +52,9 @@ with st.container():
         st.write("---")
 
         with st.sidebar:
+            st.sidebar.image('logo_globo.png', use_column_width=True, width=60)
             show_filters = st.checkbox("Exibir Filtros")
             if show_filters:
-                st.sidebar.image('logo_globo.png', use_column_width=True, width=60,)
                 st.sidebar.markdown("**Filtros**")
                 df1_data = pd.to_datetime(df["timestamp"]).dt.date
                 min_date = min(df1_data)
