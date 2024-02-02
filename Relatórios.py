@@ -55,7 +55,7 @@ with st.container():
         show_filters = st.checkbox("Exibir Filtros")
         if show_filters:
             img = Image.open('logo_globo.png')
-            img = img.resize((30, 30))
+            img = img.resize((30, 30, Image.ANTIALIAS))
             st.sidebar.image(img, use_column_width=True, output_format='auto')
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
