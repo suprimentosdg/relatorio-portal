@@ -1,9 +1,0 @@
-.image-centered {
-    display: flex;
-    justify-content: center;
-}
-
-.image-centered img {
-    width: 80px;
-    height: auto;
-}
