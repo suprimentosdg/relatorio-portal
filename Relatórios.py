@@ -53,6 +53,8 @@ with st.container():
 
         show_filters = st.checkbox("Exibir Filtros")
         if show_filters:
+            with open("styleimage.css") as f:
+                st.markdown('<div class="image-centered"><img src="logo_globo.png"></div>', unsafe_allow_html=True)
             st.sidebar.image('logo_globo.png', width=80)
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
