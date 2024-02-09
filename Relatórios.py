@@ -24,7 +24,7 @@ with st.container():
         df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
         st.dataframe(df.drop(columns=['_id']))
 
-        if st.button("Exibir Gráficos Gerais"):
+        if st.button("Exibir Gráficos"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
             tipo_item1 = "Solicitação de toner"
             df_filtrado1 = df[df['opcao'] == tipo_item1]
@@ -95,7 +95,7 @@ with st.container():
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df1filtered.drop(columns=['_id']))
 
-            if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
+            if st.button(f"Exibir Gráficos da regional {regional_selecionada}"):
                 st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
                 df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
                 counts = df_filtered_options["opcao"].value_counts()
