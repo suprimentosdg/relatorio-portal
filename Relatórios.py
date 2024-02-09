@@ -113,7 +113,7 @@ with st.container():
             return int(x)
         
         # Aplicando a função a todas as células da coluna 'nf'
-        df['nf'] = df['nf'].applymap(remove_virgula)
+        df['nf'] = df['nf'].apply(remove_virgula)
         st.dataframe(df)
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
