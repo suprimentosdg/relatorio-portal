@@ -46,6 +46,14 @@ with st.container():
             contagem_df3 = pd.DataFrame({'impressora': contagem_toners_impr.index, 'contagem': contagem_toners_impr.values})
             st.bar_chart(contagem_df3.set_index('impressora'))
 
+            st.subheader("Gráfico de Assistência técnica por Impressora:")
+            tipo_item4 = "Assistência técnica"
+            df_filtrado4 = df[df['opcao'] == tipo_item4]
+            contagem_abert_impr = df_filtrado3['impressora'].value_counts()
+            contagem_df3 = pd.DataFrame({'impressora': contagem_abert_impr.index, 'contagem': contagem_abert_impr.values})
+            st.bar_chart(contagem_df3.set_index('impressora'))
+
+
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
             df.to_excel(writer, index=False, header=True)
