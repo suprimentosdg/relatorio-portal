@@ -107,7 +107,7 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
-        df['nf'] = df['nf'].apply(lambda x: int(x.replace(',', '')) if isinstance(x, str) else int(x))
+        df['nf'] = df['nf'].astype(str).str.replace(',', '').astype(int)
         st.dataframe(df)
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
