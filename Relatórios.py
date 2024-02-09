@@ -5,6 +5,8 @@ from io import BytesIO
 from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 
+pd.set_option('display.float_format', '{:.0f}'.format)
+
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
