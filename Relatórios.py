@@ -107,7 +107,13 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
-        df['nf'] = df['nf'].astype(int)
+        def remove_virgula(x):
+            if isinstance(x, str):
+                return int(x.replace(',', ''))
+            return int(x)
+        
+        # Aplicando a função a todas as células da coluna 'nf'
+        df['nf'] = df['nf'].applymap(remove_virgula)
         st.dataframe(df)
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
