@@ -22,7 +22,7 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
-        st.dataframe(df)
+        st.dataframe(df.drop(columns=['_id']))
 
         if st.button("Exibir Gráficos Gerais"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
@@ -85,7 +85,7 @@ with st.container():
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
             st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df1filtered)
+            st.dataframe(df1filtered.drop(columns=['_id']))
 
             if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
                 st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
