@@ -20,7 +20,6 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
-        df = pd.DataFrame(dd, dtype=int)
         st.dataframe(df)
 
         if st.button("Exibir Gráficos Gerais"):
