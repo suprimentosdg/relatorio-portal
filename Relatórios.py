@@ -168,7 +168,7 @@ with st.container():
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
             st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df1filtered)
+            st.dataframe(df1filtered.drop(columns=['_id']))
 
             if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
                 st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
