@@ -11,7 +11,7 @@ col1, col2, col3 = st.columns([1, 1, 3])
 col1.title("Portal de Suprimentos")
 col2.markdown('')
 image_path = "logo_globo.png"
-image = col3.image(image_path, width=200)
+image = col3.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
