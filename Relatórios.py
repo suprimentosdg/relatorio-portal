@@ -74,7 +74,7 @@ with st.container():
 
         show_filters = st.checkbox("Exibir Relatório por Regional")
         if show_filters:
-            st.sidebar.markdown("**Filtros**")
+            st.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
             min_date = min(df1_data)
             max_date = max(df1_data)
