@@ -13,7 +13,7 @@ col2.markdown('')
 image_path = "logo_globo.png"
 image = col3.image(image_path, width=200)
 st.subheader("Relatórios")
-st.write('---') 
+st.write('---')
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
 with st.container():
