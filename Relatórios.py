@@ -140,7 +140,7 @@ with st.container():
             df.to_excel(writer, index=False, header=True)
         excel_bytes = excel_buffer.getvalue()
         st.download_button(
-            label="Baixar Relatório",
+            label="Baixar Relatório Geral",
             data=excel_bytes,
             file_name=f"relatórioEntregas.xlsx",
             key="download_button",
