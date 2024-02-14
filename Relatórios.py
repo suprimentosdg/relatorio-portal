@@ -9,7 +9,7 @@ from PIL import Image
 st.set_page_config(page_title="Relatórios")
 image = Image.open("logo_globo.png")
 image_resized = image.resize((200, 200))
-st.image(image_resized, use_column_width=False)
+st.image(image_resized, use_column_width=False, align="right")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
