@@ -72,7 +72,7 @@ with st.container():
 
         st.write("---")
 
-        show_filters = st.checkbox("Exibir Filtros")
+        show_filters = st.checkbox("Exibir relatório por Regional")
         if show_filters:
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
@@ -135,7 +135,7 @@ with st.container():
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
 
-        if st.button("Exibir Gráfico"):
+        if st.button("Exibir Gráficos Geral"):
             st.bar_chart(countsRegions_df.set_index('regional'))
 
         excel_buffer = BytesIO()
