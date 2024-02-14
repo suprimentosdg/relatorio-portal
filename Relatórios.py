@@ -5,8 +5,6 @@ from io import BytesIO
 from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 
-pd.set_option('display.float_format', '{:.0f}'.format)
-
 st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
@@ -52,7 +50,6 @@ with st.container():
             contagem_abert_impr = df_filtrado3['impressora'].value_counts()
             contagem_df3 = pd.DataFrame({'impressora': contagem_abert_impr.index, 'contagem': contagem_abert_impr.values})
             st.bar_chart(contagem_df3.set_index('impressora'))
-
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
