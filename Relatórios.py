@@ -24,7 +24,7 @@ with st.container():
         dados_mongodb = list(mycolection.find())
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
-        df['timestamp'] = pd.to_datetime(df['timestamp']) - timedelta(hours=3)
+        df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
         st.dataframe(df.drop(columns=['_id']))
 
         if st.button("Exibir Gráficos"):
@@ -125,6 +125,7 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
+
         st.dataframe(df.drop(columns=['_id']))
 
         countsRegions = df['regional'].value_counts()
