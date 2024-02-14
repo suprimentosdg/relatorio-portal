@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from PIL import Image
 
 st.set_page_config(page_title="Relatórios")
-col1, col2 = st.columns([3, 1])
+col1, col2 = st.columns([4, 1])
 col1.title("Portal de Suprimentos")
 image_path = "logo_globo.png"
 image = col2.image(image_path, width=80)
