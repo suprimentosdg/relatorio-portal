@@ -149,9 +149,8 @@ with st.container():
         if show_filters:
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
-            df1_data_formatted = df1_data.dt.strftime("%d/%m/%Y")
-            min_date = min(df1_data_formatted)
-            max_date = max(df1_data_formatted)
+            min_date = min(df1_data)
+            max_date = max(df1_data)
 
             regionais = df['regional'].unique()
             regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
