@@ -6,12 +6,13 @@ from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 from PIL import Image
 
+st.set_page_config(page_title="Relatórios")
+
 with open("style.css") as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
-st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
-image_path = "logo.png"
+image_path = "logo_globo.png"
 image = st.image(image_path, width=100)
 st.subheader("Relatórios")
 
