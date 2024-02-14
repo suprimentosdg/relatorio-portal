@@ -111,7 +111,7 @@ with st.container():
                 df1filtered.to_excel(writer, index=False, header=True)
             excel_bytes = excel_buffer.getvalue()
             st.download_button(
-                label=f"Baixar Relatório da regional **{regional_selecionada}**",
+                label=f"Baixar Relatório da Regional **{regional_selecionada}**",
                 data=excel_bytes,
                 file_name=f"relatórioImpressoras.xlsx",
                 key="download_button_regional",
@@ -180,8 +180,8 @@ with st.container():
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df1filtered.drop(columns=['_id']))
 
-            if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
-                st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+            if st.button(f"Exibir Gráfico da Regional {regional_selecionada}"):
+                st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
                 df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
                 counts = df_filtered_options["fornecedor"].value_counts()
                 st.bar_chart(counts)
@@ -193,7 +193,7 @@ with st.container():
             st.download_button(
                 label=f"Baixar Relatório da regional **{regional_selecionada}**",
                 data=excel_bytes,
-                file_name=f"relatórioImpressoras.xlsx",
+                file_name=f"relatórioConfirmações.xlsx",
                 key="download_button_regional",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
