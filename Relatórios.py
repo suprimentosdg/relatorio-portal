@@ -128,7 +128,9 @@ with st.container():
         df = pd.DataFrame(dd)
         df['nf'] = df['nf'].astype(str)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        st.dataframe(df.drop(columns=['_id']))
+        show_filters = st.checkbox("Exibir relatório geral")
+        if show_filters:
+            st.dataframe(df.drop(columns=['_id']))
 
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
