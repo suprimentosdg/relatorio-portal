@@ -82,10 +82,10 @@ with st.container():
             max_date = max_date.strftime('%d/%m/%Y')
 
             regionais = df['regional'].unique()
-            regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
+            regional_selecionada = st.selectbox("Selecione a regional:", regionais)
 
-            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-            end_date = st.sidebar.text_input("Digite uma data final", max_date)
+            start_date = st.text_input("Digite uma data de início", min_date)
+            end_date = st.text_input("Digite uma data final", max_date)
 
             start = pd.to_datetime(start_date, format='%d/%m/%Y')
             end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
