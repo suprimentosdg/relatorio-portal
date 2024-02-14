@@ -76,6 +76,8 @@ with st.container():
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
             min_date = min(df1_data)
             max_date = max(df1_data)
+            min_date = min_date.strftime('%d/%m/%Y')
+            max_date = max_date.strftime('%d/%m/%Y')
 
             regionais = df['regional'].unique()
             regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
@@ -83,8 +85,8 @@ with st.container():
             start_date = st.sidebar.text_input("Digite uma data de início", min_date)
             end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
-            start = pd.to_datetime(start_date)
-            end = pd.to_datetime(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+            start = pd.to_datetime(start_date, format='%d/%m/%Y')
+            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
 
             if start > end:
                 st.error("Data final deve ser **Maior** que data inicial")
@@ -151,7 +153,6 @@ with st.container():
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
             min_date = min(df1_data)
             max_date = max(df1_data)
-
             min_date = min_date.strftime('%d/%m/%Y')
             max_date = max_date.strftime('%d/%m/%Y')
 
