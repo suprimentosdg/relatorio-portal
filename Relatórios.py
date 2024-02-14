@@ -6,13 +6,13 @@ from xlsxwriter import Workbook
 from datetime import datetime, timedelta
 from PIL import Image
 
-st.set_page_config(page_title="Relatórios")
-path = "logo_globo.png"
 with open("style.css") as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
-image = Image.open(path)
-st.image(image, width=100)
+
+st.set_page_config(page_title="Relatórios")
 st.title("Portal de Suprimentos")
+image_path = "logo.png"
+image = st.image(image_path, width=100)
 st.subheader("Relatórios")
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
