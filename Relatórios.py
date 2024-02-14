@@ -14,7 +14,7 @@ image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
-options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
+options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de Entregas"])
 with st.container():
     if  options == "Gerenciamento de Impressoras":
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
@@ -100,12 +100,6 @@ with st.container():
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df1filtered.drop(columns=['_id']))
 
-            if st.button(f"Exibir Gráficos da regional {regional_selecionada}"):
-                st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
-                df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
-                counts = df_filtered_options["opcao"].value_counts()
-                st.bar_chart(counts)
-
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                 df1filtered.to_excel(writer, index=False, header=True)
@@ -117,6 +111,12 @@ with st.container():
                 key="download_button_regional",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+
+            if st.button(f"Exibir Gráficos da Regional {regional_selecionada}"):
+                st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+                df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
+                counts = df_filtered_options["opcao"].value_counts()
+                st.bar_chart(counts)
 
     else:
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
@@ -180,20 +180,20 @@ with st.container():
             st.subheader(f"Dados da Regional: {regional_selecionada}")
             st.dataframe(df1filtered.drop(columns=['_id']))
 
-            if st.button(f"Exibir Gráfico da Regional {regional_selecionada}"):
-                st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
-                df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
-                counts = df_filtered_options["fornecedor"].value_counts()
-                st.bar_chart(counts)
-
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                 df1filtered.to_excel(writer, index=False, header=True)
             excel_bytes = excel_buffer.getvalue()
             st.download_button(
-                label=f"Baixar Relatório da regional **{regional_selecionada}**",
+                label=f"Baixar Relatório da Regional **{regional_selecionada}**",
                 data=excel_bytes,
                 file_name=f"relatórioConfirmações.xlsx",
                 key="download_button_regional",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+
+            if st.button(f"Exibir Gráfico da Regional {regional_selecionada}"):
+                st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
+                df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
+                counts = df_filtered_options["fornecedor"].value_counts()
+                st.bar_chart(counts)
