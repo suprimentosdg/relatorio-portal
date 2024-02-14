@@ -13,7 +13,7 @@ with open("style.css") as f:
 col1, col2 = st.columns([1, 3])
 col1.title("Portal de Suprimentos")
 image_path = "logo_globo.png"
-image = col2.image(image_path, width=70, use_container_width=True)
+image = col2.image(image_path, width=70)
 st.subheader("Relatórios")
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
