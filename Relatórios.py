@@ -4,8 +4,11 @@ from pymongo import MongoClient
 from io import BytesIO
 from xlsxwriter import Workbook
 from datetime import datetime, timedelta
+from PIL import Image
 
 st.set_page_config(page_title="Relatórios")
+image = Image.open("logo_globo.png")
+st.image(image, use_column_width=True, caption="Logo da Empresa")
 st.title("Portal de Suprimentos")
 st.subheader("Relatórios")
 
