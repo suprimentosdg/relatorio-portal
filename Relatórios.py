@@ -25,9 +25,21 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        show_filters = st.checkbox("Exibir relatório geral")
+        show_filters = st.checkbox("Exibir Relatório Geral")
         if show_filters:
             st.dataframe(df.drop(columns=['_id']))
+
+        excel_buffer = BytesIO()
+        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+            df.to_excel(writer, index=False, header=True)
+        excel_bytes = excel_buffer.getvalue()
+        st.download_button(
+            label="Baixar Relatório Geral",
+            data=excel_bytes,
+            file_name=f"relatórioImpressoras.xlsx",
+            key="download_button_geral",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
         if st.button("Exibir Gráficos Gerais"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
@@ -57,18 +69,6 @@ with st.container():
             contagem_abert_impr = df_filtrado3['impressora'].value_counts()
             contagem_df3 = pd.DataFrame({'impressora': contagem_abert_impr.index, 'contagem': contagem_abert_impr.values})
             st.bar_chart(contagem_df3.set_index('impressora'))
-
-        excel_buffer = BytesIO()
-        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-            df.to_excel(writer, index=False, header=True)
-        excel_bytes = excel_buffer.getvalue()
-        st.download_button(
-            label="Baixar Relatório Geral",
-            data=excel_bytes,
-            file_name=f"relatórioImpressoras.xlsx",
-            key="download_button_geral",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
 
         st.write("---")
 
@@ -128,15 +128,12 @@ with st.container():
         df = pd.DataFrame(dd)
         df['nf'] = df['nf'].astype(str)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        show_filters = st.checkbox("Exibir relatório geral")
+        show_filters = st.checkbox("Exibir Relatório Geral")
         if show_filters:
             st.dataframe(df.drop(columns=['_id']))
 
         countsRegions = df['regional'].value_counts()
         countsRegions_df = pd.DataFrame({'regional': countsRegions.index, 'contagem': countsRegions.values})
-
-        if st.button("Exibir Gráficos Geral"):
-            st.bar_chart(countsRegions_df.set_index('regional'))
 
         excel_buffer = BytesIO()
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
@@ -149,6 +146,9 @@ with st.container():
             key="download_button",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
+
+        if st.button("Exibir Gráficos Geral"):
+            st.bar_chart(countsRegions_df.set_index('regional'))
 
         st.write("---")
 
