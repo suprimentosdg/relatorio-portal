@@ -82,7 +82,7 @@ with st.container():
             max_date = max_date.strftime('%d/%m/%Y')
 
             regionais = df['regional'].unique()
-            regional_selecionada = st.selectbox("Selecione a regional:", regionais)
+            regional_selecionada = st.selectbox("Selecione a regional:", regionais, width=400)
 
             start_date = st.text_input("Digite uma data de início", min_date)
             end_date = st.text_input("Digite uma data final", max_date)
