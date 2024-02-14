@@ -14,61 +14,63 @@ image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
-options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
-with st.container():
-    if  options == "Gerenciamento de Impressoras":
-        connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
-        client = MongoClient(connectString)
-        db = client["confirmations"]
-        mycolection = db.Cl02
-        dados_mongodb = list(mycolection.find())
-        dd=[r for r in dados_mongodb]
-        df = pd.DataFrame(dd)
-        df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        st.dataframe(df.drop(columns=['_id']))
+show_filters = st.checkbox("Relatórios Gerais")
+if show_filters:
+    options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
+    with st.container():
+        if  options == "Gerenciamento de Impressoras":
+            connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
+            client = MongoClient(connectString)
+            db = client["confirmations"]
+            mycolection = db.Cl02
+            dados_mongodb = list(mycolection.find())
+            dd=[r for r in dados_mongodb]
+            df = pd.DataFrame(dd)
+            df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
+            st.dataframe(df.drop(columns=['_id']))
 
-        if st.button("Exibir Gráficos"):
-            st.subheader("Gráfico Geral de Solicitações de Toner:")
-            tipo_item1 = "Solicitação de toner"
-            df_filtrado1 = df[df['opcao'] == tipo_item1]
-            contagem_solicitacoes = df_filtrado1['regional'].value_counts()
-            contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
-            st.bar_chart(contagem_df.set_index('regional'))
+            if st.button("Exibir Gráficos"):
+                st.subheader("Gráfico Geral de Solicitações de Toner:")
+                tipo_item1 = "Solicitação de toner"
+                df_filtrado1 = df[df['opcao'] == tipo_item1]
+                contagem_solicitacoes = df_filtrado1['regional'].value_counts()
+                contagem_df = pd.DataFrame({'regional': contagem_solicitacoes.index, 'contagem': contagem_solicitacoes.values})
+                st.bar_chart(contagem_df.set_index('regional'))
 
-            st.subheader("Gráfico Geral de Aberturas de Chamado:")
-            tipo_item2 = "Assistência técnica"
-            df_filtrado2 = df[df['opcao'] == tipo_item2]
-            contagem_aberturas = df_filtrado2['regional'].value_counts()
-            contagem_df2 = pd.DataFrame({'regional': contagem_aberturas.index, 'contagem': contagem_aberturas.values})
-            st.bar_chart(contagem_df2.set_index('regional'))
+                st.subheader("Gráfico Geral de Aberturas de Chamado:")
+                tipo_item2 = "Assistência técnica"
+                df_filtrado2 = df[df['opcao'] == tipo_item2]
+                contagem_aberturas = df_filtrado2['regional'].value_counts()
+                contagem_df2 = pd.DataFrame({'regional': contagem_aberturas.index, 'contagem': contagem_aberturas.values})
+                st.bar_chart(contagem_df2.set_index('regional'))
 
-            st.subheader("Gráfico do Consumo de Toner por Impressora:")
-            tipo_item3 = "Solicitação de toner"
-            df_filtrado3 = df[df['opcao'] == tipo_item3]
-            contagem_toners_impr = df_filtrado3['impressora'].value_counts()
-            contagem_df3 = pd.DataFrame({'impressora': contagem_toners_impr.index, 'contagem': contagem_toners_impr.values})
-            st.bar_chart(contagem_df3.set_index('impressora'))
+                st.subheader("Gráfico do Consumo de Toner por Impressora:")
+                tipo_item3 = "Solicitação de toner"
+                df_filtrado3 = df[df['opcao'] == tipo_item3]
+                contagem_toners_impr = df_filtrado3['impressora'].value_counts()
+                contagem_df3 = pd.DataFrame({'impressora': contagem_toners_impr.index, 'contagem': contagem_toners_impr.values})
+                st.bar_chart(contagem_df3.set_index('impressora'))
 
-            st.subheader("Gráfico de Assistência técnica por Impressora:")
-            tipo_item4 = "Assistência técnica"
-            df_filtrado4 = df[df['opcao'] == tipo_item4]
-            contagem_abert_impr = df_filtrado3['impressora'].value_counts()
-            contagem_df3 = pd.DataFrame({'impressora': contagem_abert_impr.index, 'contagem': contagem_abert_impr.values})
-            st.bar_chart(contagem_df3.set_index('impressora'))
+                st.subheader("Gráfico de Assistência técnica por Impressora:")
+                tipo_item4 = "Assistência técnica"
+                df_filtrado4 = df[df['opcao'] == tipo_item4]
+                contagem_abert_impr = df_filtrado3['impressora'].value_counts()
+                contagem_df3 = pd.DataFrame({'impressora': contagem_abert_impr.index, 'contagem': contagem_abert_impr.values})
+                st.bar_chart(contagem_df3.set_index('impressora'))
 
-        excel_buffer = BytesIO()
-        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-            df.to_excel(writer, index=False, header=True)
-        excel_bytes = excel_buffer.getvalue()
-        st.download_button(
-            label="Baixar Relatório Geral",
-            data=excel_bytes,
-            file_name=f"relatórioImpressoras.xlsx",
-            key="download_button_geral",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            excel_buffer = BytesIO()
+            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                df.to_excel(writer, index=False, header=True)
+            excel_bytes = excel_buffer.getvalue()
+            st.download_button(
+                label="Baixar Relatório Geral",
+                data=excel_bytes,
+                file_name=f"relatórioImpressoras.xlsx",
+                key="download_button_geral",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
-        st.write("---")
+            st.write("---")
 
         show_filters = st.checkbox("Exibir Filtros")
         if show_filters:
