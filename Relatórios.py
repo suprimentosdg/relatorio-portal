@@ -152,6 +152,9 @@ with st.container():
             min_date = min(df1_data)
             max_date = max(df1_data)
 
+            min_date = min_date.strftime('%d/%m/%Y')
+            max_date = max_date.strftime('%d/%m/%Y')
+
             regionais = df['regional'].unique()
             regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
 
