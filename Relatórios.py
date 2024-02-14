@@ -125,7 +125,6 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-
         st.dataframe(df.drop(columns=['_id']))
 
         countsRegions = df['regional'].value_counts()
