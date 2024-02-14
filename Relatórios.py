@@ -124,6 +124,7 @@ with st.container():
         dados_mongodb = list(mycolection.find())
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
+        df['nf'] = df['nf'].astype(str)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
         st.dataframe(df.drop(columns=['_id']))
 
@@ -177,7 +178,7 @@ with st.container():
 
             if st.button(f"Exibir Gráfico da regional {regional_selecionada}"):
                 st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
-                df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado Jorge Batista"])]
+                df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
                 counts = df_filtered_options["fornecedor"].value_counts()
                 st.bar_chart(counts)
 
