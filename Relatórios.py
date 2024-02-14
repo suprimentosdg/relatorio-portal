@@ -25,7 +25,9 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        st.dataframe(df.drop(columns=['_id']))
+        show_filters = st.checkbox("Exibir relatório geral")
+        if show_filters:
+            st.dataframe(df.drop(columns=['_id']))
 
         if st.button("Exibir Gráficos"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
