@@ -72,7 +72,7 @@ with st.container():
 
         st.write("---")
 
-        show_filters = st.checkbox("Exibir relatório por Regional")
+        show_filters = st.checkbox("Exibir Relatório por Regional")
         if show_filters:
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
@@ -152,7 +152,7 @@ with st.container():
 
         st.write("---")
 
-        show_filters = st.checkbox("Exibir relatório por Regional")
+        show_filters = st.checkbox("Exibir Relatório por Regional")
         if show_filters:
             st.sidebar.markdown("**Filtros**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
