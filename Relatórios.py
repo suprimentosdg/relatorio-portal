@@ -11,9 +11,9 @@ st.set_page_config(page_title="Relatórios")
 with open("style.css") as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 col1, col2 = st.columns([1, 3])
-col2.title("Portal de Suprimentos")
+col1.title("Portal de Suprimentos")
 image_path = "logo_globo.png"
-image = col1.image(image_path, width=100)
+image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 
 options = st.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de entregas"])
