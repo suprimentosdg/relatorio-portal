@@ -29,7 +29,7 @@ with st.container():
         if show_filters:
             st.dataframe(df.drop(columns=['_id']))
 
-        if st.button("Exibir Gráficos"):
+        if st.button("Exibir Gráficos Gerais"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
             tipo_item1 = "Solicitação de toner"
             df_filtrado1 = df[df['opcao'] == tipo_item1]
