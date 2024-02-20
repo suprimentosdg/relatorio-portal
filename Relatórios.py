@@ -236,9 +236,6 @@ with st.container():
             min_date = min_date.strftime('%d/%m/%Y')
             max_date = max_date.strftime('%d/%m/%Y')
 
-            opcao = df['opcao'].unique()
-            opcao_selecionada = st.sidebar.selectbox("Selecione uma opção:", opcao)
-
             start_date = st.sidebar.text_input("Digite uma data de início", min_date)
             end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
@@ -248,9 +245,9 @@ with st.container():
             if start > end:
                 st.error("Data final deve ser **Maior** que data inicial")
             
-            df1filtered = df[(df["opcao"] == opcao_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+            df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-            st.subheader(f"Dados de: {opcao_selecionada}")
+            st.subheader(f"Dados da Filtragem Geral")
             st.dataframe(df1filtered.drop(columns=['_id']))
