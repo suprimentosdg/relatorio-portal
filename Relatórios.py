@@ -25,8 +25,9 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        show_filters = st.checkbox("Exibir Relatório Geral")
-        if show_filters:
+        
+        show_filters1 = st.checkbox("Exibir Relatório Geral")
+        if show_filters1:
             st.dataframe(df.drop(columns=['_id']))
 
         excel_buffer = BytesIO()
@@ -40,8 +41,9 @@ with st.container():
             key="download_button_geral",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-    
-        if show_filters:
+
+        show_filters2 = st.checkbox("Filtragem Geral")
+        if show_filters2:
             st.sidebar.markdown("**Filtragem Geral**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
             min_date = min(df1_data)
