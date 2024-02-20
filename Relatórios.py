@@ -41,32 +41,32 @@ with st.container():
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
     
-    if show_filters:
-        st.sidebar.markdown("**Filtragem Geral**")
-        df1_data = pd.to_datetime(df["timestamp"]).dt.date
-        min_date = min(df1_data)
-        max_date = max(df1_data)
-        min_date = min_date.strftime('%d/%m/%Y')
-        max_date = max_date.strftime('%d/%m/%Y')
+        if show_filters:
+            st.sidebar.markdown("**Filtragem Geral**")
+            df1_data = pd.to_datetime(df["timestamp"]).dt.date
+            min_date = min(df1_data)
+            max_date = max(df1_data)
+            min_date = min_date.strftime('%d/%m/%Y')
+            max_date = max_date.strftime('%d/%m/%Y')
 
-        opcao = df['opcao'].unique()
-        opcao_selecionada = st.sidebar.selectbox("Selecione uma opção:", opcao)
+            opcao = df['opcao'].unique()
+            opcao_selecionada = st.sidebar.selectbox("Selecione uma opção:", opcao)
 
-        start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-        end_date = st.sidebar.text_input("Digite uma data final", max_date)
+            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
+            end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
-        start = pd.to_datetime(start_date, format='%d/%m/%Y')
-        end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+            start = pd.to_datetime(start_date, format='%d/%m/%Y')
+            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
 
-        if start > end:
-            st.error("Data final deve ser **Maior** que data inicial")
-        
-        df1filtered = df[(df["opcao"] == opcao_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+            if start > end:
+                st.error("Data final deve ser **Maior** que data inicial")
+            
+            df1filtered = df[(df["opcao"] == opcao_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-        df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
+            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-        st.subheader(f"Dados de: {opcao_selecionada}")
-        st.dataframe(df1filtered.drop(columns=['_id']))
+            st.subheader(f"Dados de: {opcao_selecionada}")
+            st.dataframe(df1filtered.drop(columns=['_id']))
 
         if st.button("Exibir Gráficos Gerais"):
             st.subheader("Gráfico Geral de Solicitações de Toner:")
