@@ -212,7 +212,7 @@ with st.container():
                 label="Baixar Relatório Filtrado",
                 data=excel_bytes,
                 file_name=f"relatórioEntregas.xlsx",
-                key="download_button",
+                key="download_button_filtered",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
