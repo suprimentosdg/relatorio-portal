@@ -179,6 +179,31 @@ with st.container():
         if st.button("Exibir Gráficos Gerais"):
             st.bar_chart(countsRegions_df.set_index('regional'))
 
+        show_filters2 = st.checkbox("Filtragem Geral")
+        if show_filters2:
+            st.sidebar.markdown("**Filtragem Geral**")
+            df1_data = pd.to_datetime(df["timestamp"]).dt.date
+            min_date = min(df1_data)
+            max_date = max(df1_data)
+            min_date = min_date.strftime('%d/%m/%Y')
+            max_date = max_date.strftime('%d/%m/%Y')
+
+            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
+            end_date = st.sidebar.text_input("Digite uma data final", max_date)
+
+            start = pd.to_datetime(start_date, format='%d/%m/%Y')
+            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+
+            if start > end:
+                st.error("Data final deve ser **Maior** que data inicial")
+            
+            df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+
+            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
+
+            st.subheader(f"Dados da Filtragem Geral")
+            st.dataframe(df1filtered.drop(columns=['_id']))
+
         st.write("---")
 
         show_filters = st.checkbox("Exibir Relatório por Regional")
@@ -226,28 +251,3 @@ with st.container():
                 df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
                 counts = df_filtered_options["fornecedor"].value_counts()
                 st.bar_chart(counts)
-        
-        show_filters2 = st.checkbox("Filtragem Geral")
-        if show_filters2:
-            st.sidebar.markdown("**Filtragem Geral**")
-            df1_data = pd.to_datetime(df["timestamp"]).dt.date
-            min_date = min(df1_data)
-            max_date = max(df1_data)
-            min_date = min_date.strftime('%d/%m/%Y')
-            max_date = max_date.strftime('%d/%m/%Y')
-
-            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-            end_date = st.sidebar.text_input("Digite uma data final", max_date)
-
-            start = pd.to_datetime(start_date, format='%d/%m/%Y')
-            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-
-            if start > end:
-                st.error("Data final deve ser **Maior** que data inicial")
-            
-            df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
-
-            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
-
-            st.subheader(f"Dados da Filtragem Geral")
-            st.dataframe(df1filtered.drop(columns=['_id']))
