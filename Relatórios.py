@@ -204,6 +204,18 @@ with st.container():
             st.subheader(f"Dados da Filtragem Geral")
             st.dataframe(df1filtered.drop(columns=['_id']))
 
+            excel_buffer = BytesIO()
+            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                df1filtered.to_excel(writer, index=False, header=True)
+            excel_bytes = excel_buffer.getvalue()
+            st.download_button(
+                label="Baixar Relatório Filtrado",
+                data=excel_bytes,
+                file_name=f"relatórioEntregas.xlsx",
+                key="download_button",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+
         st.write("---")
 
         show_filters = st.checkbox("Exibir Relatório por Regional")
