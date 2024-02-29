@@ -101,7 +101,7 @@ with st.container():
 
             df2 = df1filtered
 
-            show_filters3 = st.checkbox("Exibir Relatório por Regional")
+            show_filters3 = st.sidebar.checkbox("Filtro da Regional")
             if show_filters3:
                 regionais = df['regional'].unique()
                 regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)                
