@@ -99,53 +99,39 @@ with st.container():
             st.subheader(f"Dados de: {opcao_selecionada}")
             st.dataframe(df1filtered.drop(columns=['_id']))
 
-        st.write("---")
+            df2 = df1filtered
 
-        show_filters = st.checkbox("Exibir Relatório por Regional")
-        if show_filters:
-            st.sidebar.markdown("**Filtros**")
-            df1_data = pd.to_datetime(df["timestamp"]).dt.date
-            min_date = min(df1_data)
-            max_date = max(df1_data)
-            min_date = min_date.strftime('%d/%m/%Y')
-            max_date = max_date.strftime('%d/%m/%Y')
+            show_filters3 = st.checkbox("Exibir Relatório por Regional")
+            if show_filters3:
+                regionais = df['regional'].unique()
+                regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)                
+                df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-            regionais = df['regional'].unique()
-            regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
+                st.write("---")
 
-            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-            end_date = st.sidebar.text_input("Digite uma data final", max_date)
+                df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-            start = pd.to_datetime(start_date, format='%d/%m/%Y')
-            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+                excel_buffer = BytesIO()
+                with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                    df1filtered.to_excel(writer, index=False, header=True)
+                excel_bytes = excel_buffer.getvalue()
+                st.download_button(
+                    label=f"Baixar Relatório da Regional **{regional_selecionada}**",
+                    data=excel_bytes,
+                    file_name=f"relatórioImpressoras.xlsx",
+                    key="download_button_regional",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
 
-            if start > end:
-                st.error("Data final deve ser **Maior** que data inicial")
-            
-            df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+                if st.button(f"Exibir Gráficos da Regional {regional_selecionada}"):
+                    st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+                    df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
+                    counts = df_filtered_options["opcao"].value_counts()
+                    st.bar_chart(counts)
 
-            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
-
-            st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df1filtered.drop(columns=['_id']))
-
-            excel_buffer = BytesIO()
-            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                df1filtered.to_excel(writer, index=False, header=True)
-            excel_bytes = excel_buffer.getvalue()
-            st.download_button(
-                label=f"Baixar Relatório da Regional **{regional_selecionada}**",
-                data=excel_bytes,
-                file_name=f"relatórioImpressoras.xlsx",
-                key="download_button_regional",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-
-            if st.button(f"Exibir Gráficos da Regional {regional_selecionada}"):
-                st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
-                df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
-                counts = df_filtered_options["opcao"].value_counts()
-                st.bar_chart(counts)
+            else:
+                st.subheader(f"Dados da Filtragem Geral")
+                st.dataframe(df2.drop(columns=['_id']))
 
     else:
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
@@ -179,8 +165,7 @@ with st.container():
         if st.button("Exibir Gráficos Gerais"):
             st.bar_chart(countsRegions_df.set_index('regional'))
 
-        show_filters2 = st.checkbox("Filtragem Geral")
-        
+        show_filters2 = st.checkbox("Filtragem Geral")    
         if show_filters2:
             st.sidebar.markdown("**Filtragem Geral**")
             df1_data = pd.to_datetime(df["timestamp"]).dt.date
@@ -251,5 +236,3 @@ with st.container():
             else:
                 st.subheader(f"Dados da Filtragem Geral")
                 st.dataframe(df2.drop(columns=['_id']))
-
-            st.write("---")
