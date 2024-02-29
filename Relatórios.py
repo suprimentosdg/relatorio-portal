@@ -107,6 +107,9 @@ with st.container():
                 st.write("---")
 
                 df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
+                st.subheader(f"Dados da Regional: {regional_selecionada}")
+                df3 = df1filtered
+                st.dataframe(df3.drop(columns=['_id']))
 
                 excel_buffer = BytesIO()
                 with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
@@ -127,7 +130,7 @@ with st.container():
                     st.bar_chart(counts)
 
             else:
-                st.subheader(f"Dados da Filtragem Geral")
+                st.subheader(f"Dados da {opcao_selecionada}")
                 st.dataframe(df2.drop(columns=['_id']))
 
     else:
