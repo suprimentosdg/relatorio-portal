@@ -96,9 +96,6 @@ with st.container():
 
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-            st.subheader(f"Dados de: {opcao_selecionada}")
-            st.dataframe(df1filtered.drop(columns=['_id']))
-
             df2 = df1filtered
 
             show_filters3 = st.sidebar.checkbox("Filtro da Regional")
