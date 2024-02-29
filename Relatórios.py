@@ -216,50 +216,36 @@ with st.container():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
-        st.write("---")
+            show_filters3 = st.checkbox("Exibir Relatório por Regional")
+            if show_filters3:
+                st.sidebar.markdown("**Filtros**")
+                regionais = df['regional'].unique()
+                regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
+                df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-        show_filters = st.checkbox("Exibir Relatório por Regional")
-        if show_filters:
-            st.sidebar.markdown("**Filtros**")
-            df1_data = pd.to_datetime(df["timestamp"]).dt.date
-            min_date = min(df1_data)
-            max_date = max(df1_data)
-            min_date = min_date.strftime('%d/%m/%Y')
-            max_date = max_date.strftime('%d/%m/%Y')
+                df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-            regionais = df['regional'].unique()
-            regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
+                st.subheader(f"Dados da Regional: {regional_selecionada}")
+                st.dataframe(df1filtered.drop(columns=['_id']))
 
-            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-            end_date = st.sidebar.text_input("Digite uma data final", max_date)
+                excel_buffer = BytesIO()
+                with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                    df1filtered.to_excel(writer, index=False, header=True)
+                excel_bytes = excel_buffer.getvalue()
+                st.download_button(
+                    label=f"Baixar Relatório da Regional **{regional_selecionada}**",
+                    data=excel_bytes,
+                    file_name=f"relatórioConfirmações.xlsx",
+                    key="download_button_regional",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
 
-            start = pd.to_datetime(start_date, format='%d/%m/%Y')
-            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+                if st.button(f"Exibir Gráfico da Regional {regional_selecionada}"):
+                    st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
+                    df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
+                    counts = df_filtered_options["fornecedor"].value_counts()
+                    st.bar_chart(counts)
 
-            if start > end:
-                st.error("Data final deve ser **Maior** que data inicial")
-            
-            df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+            st.write("---")
 
-            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
-
-            st.subheader(f"Dados da Regional: {regional_selecionada}")
-            st.dataframe(df1filtered.drop(columns=['_id']))
-
-            excel_buffer = BytesIO()
-            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                df1filtered.to_excel(writer, index=False, header=True)
-            excel_bytes = excel_buffer.getvalue()
-            st.download_button(
-                label=f"Baixar Relatório da Regional **{regional_selecionada}**",
-                data=excel_bytes,
-                file_name=f"relatórioConfirmações.xlsx",
-                key="download_button_regional",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-
-            if st.button(f"Exibir Gráfico da Regional {regional_selecionada}"):
-                st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
-                df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
-                counts = df_filtered_options["fornecedor"].value_counts()
-                st.bar_chart(counts)
+       
