@@ -98,7 +98,7 @@ with st.container():
 
             df2 = df1filtered
 
-            show_filters3 = st.sidebar.checkbox("Filtro da Regional")
+            show_filters3 = st.sidebar.checkbox("Filtro por Regional")
             if show_filters3:
                 regionais = df['regional'].unique()
                 regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)                
@@ -107,7 +107,7 @@ with st.container():
                 st.write("---")
 
                 df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
-                st.subheader(f"Dados de {opcao_selecionada} da Regional: {regional_selecionada}")
+                st.subheader(f"Dados de {opcao_selecionada} da Regional {regional_selecionada}")
                 df3 = df1filtered
                 st.dataframe(df3.drop(columns=['_id']))
 
