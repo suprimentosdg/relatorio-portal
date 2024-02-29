@@ -202,9 +202,6 @@ with st.container():
 
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-            st.subheader(f"Dados da Filtragem Geral")
-            st.dataframe(df1filtered.drop(columns=['_id']))
-
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                 df1filtered.to_excel(writer, index=False, header=True)
@@ -217,6 +214,8 @@ with st.container():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
+            df2 = df1filtered
+
             show_filters3 = st.sidebar.checkbox("Filtro da Regional")
             if show_filters3:
                 regionais = df['regional'].unique()
@@ -228,7 +227,8 @@ with st.container():
                 df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
                 st.subheader(f"Dados da Regional: {regional_selecionada}")
-                st.dataframe(df1filtered.drop(columns=['_id']))
+                df3 = df1filtered
+                st.dataframe(df3.drop(columns=['_id']))
 
                 excel_buffer = BytesIO()
                 with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
@@ -248,6 +248,8 @@ with st.container():
                     counts = df_filtered_options["fornecedor"].value_counts()
                     st.bar_chart(counts)
 
-            st.write("---")
+            else:
+                st.subheader(f"Dados da Filtragem Geral")
+                st.dataframe(df2.drop(columns=['_id']))
 
-       
+            st.write("---")
