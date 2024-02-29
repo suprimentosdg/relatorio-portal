@@ -216,7 +216,7 @@ with st.container():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
-            show_filters3 = st.checkbox("Exibir Relatório por Regional")
+            show_filters3 = st.sidebar.checkbox("Exibir Relatório por Regional")
             if show_filters3:
                 st.sidebar.markdown("**Filtros**")
                 regionais = df['regional'].unique()
