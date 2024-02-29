@@ -216,12 +216,13 @@ with st.container():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
-            show_filters3 = st.sidebar.checkbox("Exibir Relatório por Regional")
+            show_filters3 = st.sidebar.checkbox("Filtro da Regional")
             if show_filters3:
-                st.sidebar.markdown("**Filtros**")
                 regionais = df['regional'].unique()
                 regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
                 df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+
+                st.write("---")
 
                 df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
