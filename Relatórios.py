@@ -180,42 +180,42 @@ with st.container():
             st.bar_chart(countsRegions_df.set_index('regional'))
 
         show_filters2 = st.checkbox("Filtragem Geral")
+        
         if show_filters2:
-            if show_filters2 and not st.sidebar.checkbox("Filtro da Regional"):
-                st.sidebar.markdown("**Filtragem Geral**")
-                df1_data = pd.to_datetime(df["timestamp"]).dt.date
-                min_date = min(df1_data)
-                max_date = max(df1_data)
-                min_date = min_date.strftime('%d/%m/%Y')
-                max_date = max_date.strftime('%d/%m/%Y')
+            st.sidebar.markdown("**Filtragem Geral**")
+            df1_data = pd.to_datetime(df["timestamp"]).dt.date
+            min_date = min(df1_data)
+            max_date = max(df1_data)
+            min_date = min_date.strftime('%d/%m/%Y')
+            max_date = max_date.strftime('%d/%m/%Y')
 
-                start_date = st.sidebar.text_input("Digite uma data de início", min_date)
-                end_date = st.sidebar.text_input("Digite uma data final", max_date)
+            start_date = st.sidebar.text_input("Digite uma data de início", min_date)
+            end_date = st.sidebar.text_input("Digite uma data final", max_date)
 
-                start = pd.to_datetime(start_date, format='%d/%m/%Y')
-                end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+            start = pd.to_datetime(start_date, format='%d/%m/%Y')
+            end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
 
-                if start > end:
-                    st.error("Data final deve ser **Maior** que data inicial")
-                
-                df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+            if start > end:
+                st.error("Data final deve ser **Maior** que data inicial")
+            
+            df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
-                df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
+            df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
-                st.subheader(f"Dados da Filtragem Geral")
-                st.dataframe(df1filtered.drop(columns=['_id']))
+            st.subheader(f"Dados da Filtragem Geral")
+            st.dataframe(df1filtered.drop(columns=['_id']))
 
-                excel_buffer = BytesIO()
-                with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                    df1filtered.to_excel(writer, index=False, header=True)
-                excel_bytes = excel_buffer.getvalue()
-                st.download_button(
-                    label="Baixar Relatório Filtrado",
-                    data=excel_bytes,
-                    file_name=f"relatórioEntregas.xlsx",
-                    key="download_button_filtered",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
+            excel_buffer = BytesIO()
+            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                df1filtered.to_excel(writer, index=False, header=True)
+            excel_bytes = excel_buffer.getvalue()
+            st.download_button(
+                label="Baixar Relatório Filtrado",
+                data=excel_bytes,
+                file_name=f"relatórioEntregas.xlsx",
+                key="download_button_filtered",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
             show_filters3 = st.sidebar.checkbox("Filtro da Regional")
             if show_filters3:
