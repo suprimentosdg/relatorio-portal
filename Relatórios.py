@@ -14,7 +14,7 @@ image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
-col3, col4, col5 = st.columns([1, 4, 1])
+col3, col4, col5 = st.columns([1, 3, 1])
 options = col4.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de Entregas"])
 with st.container():
     if  options == "Gerenciamento de Impressoras":
@@ -26,8 +26,6 @@ with st.container():
         dd=[r for r in dados_mongodb]
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
-        
-        st.empty()
 
         show_filters = st.checkbox("Exibir Relatório Geral")
         if show_filters:
