@@ -132,7 +132,6 @@ with st.container():
             else:
                 st.subheader(f"Dados de {opcao_selecionada}")
                 st.dataframe(df2.drop(columns=['_id']))
-
                 excel_buffer = BytesIO()
                 with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                     df2.to_excel(writer, index=False, header=True)
@@ -198,18 +197,6 @@ with st.container():
             df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
-
-            excel_buffer = BytesIO()
-            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                df1filtered.to_excel(writer, index=False, header=True)
-            excel_bytes = excel_buffer.getvalue()
-            st.download_button(
-                label="Baixar Relatório Filtrado",
-                data=excel_bytes,
-                file_name=f"relatórioEntregas.xlsx",
-                key="download_button_filtered",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
 
             df2 = df1filtered
 
