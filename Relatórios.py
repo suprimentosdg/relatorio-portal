@@ -14,18 +14,7 @@ image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
-css = """
-<style>
-    select[data-testid=stSelectbox] {
-        text-align: center;
-        text-align-last: center;
-    }
-</style>
-"""
-
-st.markdown(css, unsafe_allow_html=True)
-
-col3, col4, col5 = st.columns([1, 5, 1])
+col3, col4, col5 = st.columns([1, 4, 1])
 options = col4.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de Entregas"])
 with st.container():
     if  options == "Gerenciamento de Impressoras":
