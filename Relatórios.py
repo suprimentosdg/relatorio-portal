@@ -14,9 +14,9 @@ image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
-col3, col4 = st.columns([1, 1])
+col3, col4, col5 = st.columns([1, 1, 1])
 options = col3.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de Entregas"])
-with st.container():
+with col4.container():
     if  options == "Gerenciamento de Impressoras":
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
         client = MongoClient(connectString)
