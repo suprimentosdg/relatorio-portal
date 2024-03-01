@@ -133,6 +133,18 @@ with st.container():
                 st.subheader(f"Dados de {opcao_selecionada}")
                 st.dataframe(df2.drop(columns=['_id']))
 
+                excel_buffer = BytesIO()
+                with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                    df2.to_excel(writer, index=False, header=True)
+                excel_bytes = excel_buffer.getvalue()
+                st.download_button(
+                    label=f"Baixar Relatório Filtrado",
+                    data=excel_bytes,
+                    file_name=f"relatórioImpressoras.xlsx",
+                    key="download_button_regional",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+
     else:
         connectString = "mongodb+srv://suprimentosdglobo:suprimentosdg2023@cluster0.dx7yrgp.mongodb.net/?retryWrites=true&w=majority"
         client = MongoClient(connectString)
