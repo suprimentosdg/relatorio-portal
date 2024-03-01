@@ -27,6 +27,8 @@ with st.container():
         df = pd.DataFrame(dd)
         df['timestamp'] = pd.to_datetime(df['timestamp'], format="%d/%m/%Y %H:%M:%S") - timedelta(hours=3)
         
+        st.empty()
+
         show_filters = st.checkbox("Exibir Relatório Geral")
         if show_filters:
             st.dataframe(df.drop(columns=['_id']))
