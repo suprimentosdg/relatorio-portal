@@ -14,7 +14,7 @@ image = col2.image(image_path, width=80)
 st.subheader("Relatórios")
 st.write('---')
 
-col3, col4, col5 = st.columns([1, 1.7, 1])
+col3, col4, col5 = st.columns([1, 1.5, 1])
 options = col4.selectbox("Selecione o relatório desejado:", ["Gerenciamento de Impressoras", "Confirmações de Entregas"])
 with st.container():
     if  options == "Gerenciamento de Impressoras":
