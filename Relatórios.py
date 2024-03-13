@@ -169,7 +169,7 @@ with st.container():
         st.download_button(
             label="Baixar Relatório Geral",
             data=excel_bytes,
-            file_name=f"relatórioEntregas.xlsx",
+            file_name=f"relatórioConfirmações.xlsx",
             key="download_button",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
@@ -243,7 +243,7 @@ with st.container():
                 st.download_button(
                     label=f"Baixar Relatório Filtrado",
                     data=excel_bytes,
-                    file_name=f"relatórioImpressoras.xlsx",
+                    file_name=f"relatórioConfirmações.xlsx",
                     key="download_button_regional",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
