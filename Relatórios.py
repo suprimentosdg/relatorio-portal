@@ -90,7 +90,7 @@ with st.container():
             if start > end:
                 st.error("Data final deve ser **Maior** que data inicial")
             
-            df1filtered = (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)
+            df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
