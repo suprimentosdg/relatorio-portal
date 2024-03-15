@@ -130,7 +130,7 @@ with st.container():
                     st.bar_chart(counts)
 
             else:
-                st.subheader(f"Dados de selecinados")
+                st.subheader(f"Dados de selecionados")
                 st.dataframe(df2.drop(columns=['_id']))
                 excel_buffer = BytesIO()
                 with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
