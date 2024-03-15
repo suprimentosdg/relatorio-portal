@@ -120,7 +120,7 @@ with st.container():
                     file_name=f"relatórioImpressoras.xlsx",
                     key="download_button_regional",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
+                    )
 
             else:
                 st.subheader(f"Dados filtrados da Regional {regional_selecionada}")
@@ -130,12 +130,12 @@ with st.container():
                     df2.to_excel(writer, index=False, header=True)
                 excel_bytes = excel_buffer.getvalue()
                 st.download_button(
-                    label=f"Baixar Relatório da Regional **{regional_selecionada}**,
+                    label=f"Baixar Relatório da Regional **{regional_selecionada}**",
                     data=excel_bytes,
                     file_name=f"relatórioImpressoras.xlsx",
                     key="download_button_regional",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
+                    )
 
                 if st.button(f"Exibir Gráficos da Regional {regional_selecionada}"):
                     st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
