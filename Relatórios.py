@@ -101,7 +101,7 @@ with st.container():
             if show_filters3:              
                 opcao = df['opcao'].unique()
                 opcao_selecionada = st.sidebar.selectbox("Selecione uma opção:", opcao)
-                df1filtered = df[(df["opcao"] == opcao_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+                df1filtered = df[(df["opcao"] == opcao_selecionada) & (df["regional"] == regional_selecionada) &(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
                 st.write("---")
 
