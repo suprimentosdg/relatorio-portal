@@ -83,26 +83,25 @@ with st.container():
 
             start_date = st.sidebar.text_input("Digite uma data de início", min_date)
             end_date = st.sidebar.text_input("Digite uma data final", max_date)
-
+            regionais = df['regional'].unique()
+            regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)  
             start = pd.to_datetime(start_date, format='%d/%m/%Y')
             end = pd.to_datetime(end_date, format='%d/%m/%Y') + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
 
             if start > end:
                 st.error("Data final deve ser **Maior** que data inicial")
             
-            df1filtered = df[(pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+            df1filtered = df[(df["regional"] == regional_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
 
             df1filtered['timestamp'] = pd.to_datetime(df1filtered['timestamp'])
 
             df2 = df1filtered
 
-            show_filters3 = st.sidebar.checkbox("Filtro por Regional")
-            if show_filters3:
-                regionais = df['regional'].unique()
-                regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)                
+            show_filters3 = st.sidebar.checkbox("Filtro por Opção")
+            if show_filters3:              
                 opcao = df['opcao'].unique()
                 opcao_selecionada = st.sidebar.selectbox("Selecione uma opção:", opcao)
-                df1filtered = df[(df["regional"] == regional_selecionada) & (df["opcao"] == opcao_selecionada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+                df1filtered = df[(df["opcao"] == opcao_selecionada)]
 
                 st.write("---")
 
