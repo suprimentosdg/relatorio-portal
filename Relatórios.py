@@ -97,7 +97,7 @@ with st.container():
 
             df2 = df1filtered
 
-            show_filters3 = st.sidebar.checkbox("Filtro por Opção")
+            show_filters3 = st.sidebar.checkbox("Filtro por Solicitação")
             if show_filters3:              
                 opcao = df['opcao'].unique()
                 opcao_selecionada = st.sidebar.selectbox("Selecione uma opção:", opcao)
