@@ -199,7 +199,7 @@ with st.container():
 
             df2 = df1filtered
 
-            show_filters3 = st.sidebar.checkbox("Filtro da Regional")
+            show_filters3 = st.sidebar.checkbox("Filtro Por Regional")
             if show_filters3:
                 regionais = df['regional'].unique()
                 regional_selecionada = st.sidebar.selectbox("Selecione a regional:", regionais)
@@ -211,25 +211,45 @@ with st.container():
 
                 st.subheader(f"Dados da Regional: {regional_selecionada}")
                 df3 = df1filtered
-                st.dataframe(df3.drop(columns=['_id']))
-
-                excel_buffer = BytesIO()
-                with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                    df1filtered.to_excel(writer, index=False, header=True)
-                excel_bytes = excel_buffer.getvalue()
-                st.download_button(
-                    label=f"Baixar Relatório da Regional **{regional_selecionada}**",
-                    data=excel_bytes,
-                    file_name=f"relatórioConfirmações.xlsx",
-                    key="download_button_regional",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
 
                 if st.button(f"Exibir Gráfico da Regional {regional_selecionada}"):
                     st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
                     df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "KC Carvalho", "Macropack", "Nacional", "PL", "Supermercado São Jorge (JB)"])]
                     counts = df_filtered_options["fornecedor"].value_counts()
                     st.bar_chart(counts)
+
+                show_filters4 = st.sidebar.checkbox("Filtro Por Loja")
+                if show_filters4:
+                    lojas = df[df['regional'] == regional_selecionada]["loja"].unique()
+                    lojafiltrada = st.sidebar.selectbox("Selecione a Loja:", lojas)
+                    df1filtered = df[(df["regional"] == regional_selecionada) & (df["loja"] == lojafiltrada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
+                    st.dataframe(df1filtered.drop(columns=['_id']))
+
+                    excel_buffer = BytesIO()
+                    with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                        df1filtered.to_excel(writer, index=False, header=True)
+                    excel_bytes = excel_buffer.getvalue()
+                    st.download_button(
+                        label=f"Baixar Relatório da Regional **{regional_selecionada}**",
+                        data=excel_bytes,
+                        file_name=f"relatórioConfirmações.xlsx",
+                        key="download_button_regional",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
+                else:
+                    st.dataframe(df3.drop(columns=['_id']))
+                
+                    excel_buffer = BytesIO()
+                    with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+                        df1filtered.to_excel(writer, index=False, header=True)
+                    excel_bytes = excel_buffer.getvalue()
+                    st.download_button(
+                        label=f"Baixar Relatório da Regional **{regional_selecionada}**",
+                        data=excel_bytes,
+                        file_name=f"relatórioConfirmações.xlsx",
+                        key="download_button_regional",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
 
             else:
                 st.subheader(f"Dados da Filtragem Geral")
