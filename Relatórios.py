@@ -113,15 +113,21 @@ with st.container():
                     lojafiltrada = st.sidebar.selectbox("Selecione a Loja:", lojas)
                     df1filtered = df[(df["regional"] == regional_selecionada) & (df["opcao"] == opcao_selecionada) & (df["loja"] == lojafiltrada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
                     st.subheader(f"Dados de {opcao_selecionada} da Loja {lojafiltrada}")
-                    st.dataframe(df1filtered.drop(columns=['_id']))
+                    if opcao_selecionada == "Solicitação de toner":
+                        st.dataframe(df1filtered.drop(columns=['_id', 'observacao']))
+                    else:
+                        st.dataframe(df1filtered.drop(columns=['_id']))
 
                 else:
                     st.subheader(f"Dados de {opcao_selecionada} da Regional {regional_selecionada}")
-                    st.dataframe(df3.drop(columns=['_id']))
+                    if opcao_selecionada == "Solicitação de toner":
+                        st.dataframe(df3.drop(columns=['_id', 'observacao']))
+                    else:
+                        st.dataframe(df3.drop(columns=['_id']))
 
                     excel_buffer = BytesIO()
                     with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
-                        df2.to_excel(writer, index=False, header=True)
+                        df3.to_excel(writer, index=False, header=True)
                     excel_bytes = excel_buffer.getvalue()
                     st.download_button(
                         label=f"Baixar Relatório de {opcao_selecionada} da  Regional **{regional_selecionada}**",
@@ -137,14 +143,15 @@ with st.container():
                         st.bar_chart(counts)
 
             else:
-                st.subheader(f"Dados da Filtragem Geral")
+                st.subheader(f"Dados Gerais da regional **{regional_selecionada}**")
                 st.dataframe(df2.drop(columns=['_id']))
                 excel_buffer = BytesIO()
                 with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                     df2.to_excel(writer, index=False, header=True)
                 excel_bytes = excel_buffer.getvalue()
+
                 st.download_button(
-                    label=f"Baixar Relatório da Regional {regional_selecionada}",
+                    label=f"Baixar Relatório Geral da Regional **{regional_selecionada}**",
                     data=excel_bytes,
                     file_name=f"relatórioConfirmações.xlsx",
                     key="download_button_regional",
