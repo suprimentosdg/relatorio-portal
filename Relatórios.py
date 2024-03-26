@@ -112,14 +112,14 @@ with st.container():
                     lojas = df[df['regional'] == regional_selecionada]["loja"].unique()
                     lojafiltrada = st.sidebar.selectbox("Selecione a Loja:", lojas)
                     df1filtered = df[(df["regional"] == regional_selecionada) & (df["opcao"] == opcao_selecionada) & (df["loja"] == lojafiltrada) & (pd.to_datetime(df["timestamp"]) >= start) & (pd.to_datetime(df["timestamp"]) <= end)]
-                    st.subheader(f"Dados de {opcao_selecionada} da Loja {lojafiltrada}")
+                    st.subheader(f"Dados de **{opcao_selecionada}** da Loja **{lojafiltrada}**")
                     if opcao_selecionada == "Solicitação de toner":
                         st.dataframe(df1filtered.drop(columns=['_id', 'observacao']))
                     else:
                         st.dataframe(df1filtered.drop(columns=['_id']))
 
                 else:
-                    st.subheader(f"Dados de {opcao_selecionada} da Regional {regional_selecionada}")
+                    st.subheader(f"Dados de **{opcao_selecionada}** da Regional **{regional_selecionada}**")
                     if opcao_selecionada == "Solicitação de toner":
                         st.dataframe(df3.drop(columns=['_id', 'observacao']))
                     else:
@@ -130,14 +130,15 @@ with st.container():
                         df3.to_excel(writer, index=False, header=True)
                     excel_bytes = excel_buffer.getvalue()
                     st.download_button(
-                        label=f"Baixar Relatório de {opcao_selecionada} da  Regional **{regional_selecionada}**",
+                        label=f"Baixar Relatório de **{opcao_selecionada}** da  Regional **{regional_selecionada}**",
                         data=excel_bytes,
                         file_name=f"relatórioImpressoras.xlsx",
                         key="download_button_regional",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         )
-                    if st.button(f"Exibir Gráfico de {opcao_selecionada} da Regional **{regional_selecionada}**"):
-                        st.subheader(f"Gráfico da regional {regional_selecionada} de {opcao_selecionada}:")
+                    
+                    if st.button(f"Exibir Gráfico de **{opcao_selecionada}** da Regional **{regional_selecionada}**"):
+                        st.subheader(f"Gráfico da Regional **{regional_selecionada}** de **{opcao_selecionada}**:")
                         df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
                         counts = df_filtered_options["loja"].value_counts()
                         st.bar_chart(counts)
@@ -159,8 +160,8 @@ with st.container():
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
 
-                if st.button(f"Exibir Gráficos da Regional **{regional_selecionada}**"):
-                        st.subheader(f"Gráfico Geral da regional {regional_selecionada}:")
+                if st.button(f"Exibir Gráficos Gerais da Regional **{regional_selecionada}**"):
+                        st.subheader(f"Gráficos Gerais da Regional **{regional_selecionada}**:")
                         df_filtered_options = df1filtered[df1filtered["opcao"].isin(["Assistência técnica", "Solicitação de toner"])]
                         counts = df_filtered_options["opcao"].value_counts()
                         st.bar_chart(counts)
@@ -242,7 +243,7 @@ with st.container():
                     st.dataframe(df1filtered.drop(columns=['_id']))
 
                 else:
-                    st.subheader(f"Dados das Entregas da Regional {regional_selecionada}")
+                    st.subheader(f"Dados das Entregas da Regional **{regional_selecionada}**")
                     st.dataframe(df3.drop(columns=['_id']))
                 
                     excel_buffer = BytesIO()
@@ -258,7 +259,7 @@ with st.container():
                     )
 
                     if st.button(f"Exibir Gráfico das Entregas da Regional **{regional_selecionada}**"):
-                        st.subheader(f"Gráfico Geral da Regional {regional_selecionada}:")
+                        st.subheader(f"Gráfico Geral da Regional **{regional_selecionada}**:")
                         df_filtered_options = df1filtered[df1filtered["fornecedor"].isin(["Atlas Papelaria", "Atakadinho Bahia", "Brandão & Brandão", "Brilhante", "Casa Norte", "Distribuidora Teresina", "Ecopaper", "E Pacheco", "J D R Sousa", "KC Carvalho", "L C Vaz", "Macropack", "Mix Comércio", "Nacional", "PL Distribuidora", "Supermercado São Jorge (JB)"])]
                         counts = df_filtered_options["fornecedor"].value_counts()
                         st.bar_chart(counts)
@@ -271,6 +272,7 @@ with st.container():
                 with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
                     df2.to_excel(writer, index=False, header=True)
                 excel_bytes = excel_buffer.getvalue()
+                
                 st.download_button(
                     label=f"Baixar Relatório Filtrado",
                     data=excel_bytes,
